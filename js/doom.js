@@ -9,7 +9,8 @@
 //   single-key shortcuts.
 // - It runs only while it has the keyboard, is on screen and the tab is visible. Its clock
 //   stops otherwise, so nothing happens in the game while you are not playing.
-// - No keyboard (a touch screen): no PLAY, a line says why. No sound: the engine has none.
+// - No keyboard (a touch screen): buttons under the screen stand in for the keys, and the game
+//   runs while the screen is in view. No sound: the engine has none.
 const TIC = 1000 / 35; // Doom runs 35 game tics a second
 const W = 320, H = 200;
 // Browser key (KeyboardEvent.code) to Doom key code, from doomgeneric's doomkeys.h.
@@ -47,12 +48,36 @@ export default function doom(fig) {
     if (replaceLast) bootLines[bootLines.length - 1] = line; else bootLines.push(line);
     boot.textContent = bootLines.join('\n');
   }
+  // Touch buttons for a screen without a keyboard: each holds its Doom key while pressed.
+  const PAD = [['up', '\u2191', UP, 'forward'], ['left', '\u2190', LEFT, 'turn left'], ['right', '\u2192', RIGHT, 'turn right'],
+    ['down', '\u2193', DOWN, 'back'], ['fire', 'FIRE', FIRE, 'fire'], ['use', 'USE', USE, 'use, open doors'],
+    ['enter', 'OK', 13, 'pick a menu item'], ['menu', 'MENU', MENU, 'open the menu']];
+  const pad = document.createElement('div');
+  pad.className = 'doom-pad'; pad.hidden = true;
+  pad.setAttribute('role', 'group'); pad.setAttribute('aria-label', 'Game controls');
+  for (const [name, label, code, says] of PAD) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.tabIndex = -1; b.className = `pad-${name}`; b.textContent = label; b.setAttribute('aria-label', says);
+    const up = () => { delete b.dataset.on; if (held.delete(code)) M?._dg_key(0, code); };
+    b.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (state !== 'playing' || held.has(code)) return;
+      b.setPointerCapture?.(e.pointerId);
+      b.dataset.on = ''; held.add(code); M._dg_key(1, code);
+    });
+    for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) b.addEventListener(ev, up);
+    b.addEventListener('contextmenu', (e) => e.preventDefault());
+    pad.append(b);
+  }
+  keysRow.after(pad);
+
   function showDevice() {
     const ok = keyboard.matches;
-    if (state === 'idle' || state === 'ended') btn.hidden = !ok;
+    if (state === 'idle' || state === 'ended') btn.hidden = false;
     keysRow.hidden = !ok;
+    pad.hidden = ok || state !== 'playing';
     note.hidden = ok;
-    note.textContent = 'Freedoom needs a keyboard, so on this screen it is a still picture.';
+    note.textContent = 'On a touch screen the buttons under the screen are the keys. It downloads 29 MB, so Wi-Fi is best.';
   }
   keyboard.addEventListener('change', showDevice);
   showDevice();
@@ -151,6 +176,12 @@ export default function doom(fig) {
     btn.removeAttribute('aria-disabled');
     boot.hidden = true; canvas.hidden = false;
     blit();
+    if (!keyboard.matches) { // touch: no focus to give, it runs while the screen is in view
+      state = 'playing'; btn.hidden = true; pad.hidden = false; note.hidden = true;
+      say('Freedoom is running. The buttons under the screen are the keys.');
+      update();
+      return;
+    }
     state = 'paused';
     take();
   }
@@ -163,7 +194,7 @@ export default function doom(fig) {
     canvas.hidden = true; boot.hidden = true; still.hidden = false;
     delete pc.dataset.on;
     setButton('POWER', 'Power on again and play Freedoom.');
-    btn.hidden = !keyboard.matches;
+    btn.hidden = false; pad.hidden = true; showDevice();
     if (had) btn.focus();
     give(false);
     say('Freedoom has ended.');
@@ -185,7 +216,7 @@ export default function doom(fig) {
   });
   canvas.addEventListener('blur', () => {
     delete document.documentElement.dataset.game;
-    if (state !== 'playing') return;
+    if (state !== 'playing' || !keyboard.matches) return;
     state = 'paused';
     give(false);
     setButton('<span class="dl">PAUSED: </span>PLAY', 'Freedoom is paused. Resume it.');
