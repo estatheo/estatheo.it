@@ -291,13 +291,13 @@ html:not(.js) .theme { display: none; }
 
 /* From about 68rem the figures move to a rail on the right, joined by dotted connectors. */
 @media (min-width: 68rem) {
-  .row { display: grid; grid-template-columns: minmax(0, 70ch) minmax(0, 1fr); column-gap: 4rem; align-items: start; }
+  .row { display: grid; grid-template-columns: minmax(0, 70ch) minmax(0, 35rem); column-gap: 6rem; align-items: start; }
   .row.solo { display: block; }
   .row.personal > .text { grid-column: 1; }
   .row.era { grid-template-rows: auto 1fr; }
   .row.era > .text { grid-column: 1; }
   .row.era > .fig { grid-column: 2; grid-row: 1 / span 2; }
-  .fig { margin-top: 0; justify-self: center; width: 100%; max-width: 35rem; position: sticky; top: 2.5rem; }
+  .fig { margin-top: 0; justify-self: start; width: 100%; max-width: 35rem; position: sticky; top: 2.5rem; }
   .conn { display: block; margin: 1.25rem auto 0; }
   .row { margin-top: 2rem; }
   .row.chapter, .row.solo { margin-top: 6rem; }

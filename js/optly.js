@@ -19,7 +19,7 @@ const PHONES = [
   ['2 ig', [[3.2, 'sent'], [5.6, 'read'], [6.4, '"STOP"'], [6.8, 'opted out', 1]]],
   ['3 ig', [[3.8, 'skipped', 1], [3.8, 'window closed'], [4.1, 'reason kept']]],
 ];
-const COLS = [0, 0.08, 0.3, 0.5, 0.78]; // the table's columns, as fractions of the width
+const COLS = [0, 0.08, 0.3, 0.5, 0.7]; // the table's columns, as fractions of the width
 
 export default function optly(fig) {
   let pal = palette();
@@ -76,7 +76,7 @@ export default function optly(fig) {
       const rest = pick(ctx, ['to 3 followers, checked per send', 'to 3, checked per send', 'to 3, per send'], fs, w - width(ctx, 'CAMPAIGN  ', fs, 700));
       runs(ctx, [['CAMPAIGN  ', pal.fg, 700], [rest, pal.fg]], 0, y(1.4), fs);
     }
-    if (t >= 1.9) ['to', 'consent', w >= 300 ? '24h window' : '24h', 'template', ''].forEach((s, i) => text(ctx, s, COLS[i] * w, y(2.4), pal.grey, 'left', 700, fs));
+    if (t >= 1.9) ['to', 'consent', w >= 300 ? '24h window' : '24h', 'template', 'result'].forEach((s, i) => text(ctx, s, COLS[i] * w, y(2.4), pal.grey, 'left', 700, fs));
     SENDS.forEach(([a, b, ...cells], k) => {
       if (t < a) return;
       if (t < b) { text(ctx, cells[0], 0, y(3.4 + k), pal.fg, 'left', 400, fs); text(ctx, '...', COLS[1] * w, y(3.4 + k), pal.grey, 'left', 400, fs); return; }
