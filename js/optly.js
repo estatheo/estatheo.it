@@ -19,7 +19,7 @@ const PHONES = [
   ['2 ig', [[3.2, 'sent'], [5.6, 'read'], [6.4, '"STOP"'], [6.8, 'opted out', 1]]],
   ['3 ig', [[3.8, 'skipped', 1], [3.8, 'window closed'], [4.1, 'reason kept']]],
 ];
-const COLS = [0, 0.08, 0.3, 0.5, 0.7]; // the table's columns, as fractions of the width
+const COLS = [0, 0.08, 0.28, 0.52, 0.72]; // the table's columns, as fractions of the width
 
 export default function optly(fig) {
   let pal = palette();
@@ -38,7 +38,7 @@ export default function optly(fig) {
   document.fonts?.ready.then(() => size(env));
 
   function layout(w) {
-    const fs = clamp(w / 40, 7, 11), lh = fs * 1.55, top = pillH();
+    const fs = clamp(w / 32, 9, 11), lh = fs * 1.55, top = pillH();
     const y = (k) => top + lh * (k + 0.5);
     const cw = w / 3, pw = Math.min(cw * 0.78, 92), ph = pw * 1.4, py = top + lh * 7.9;
     return { fs, lh, y, cw, pw, ph, py, bottom: py + ph + lh * 6.6 };

@@ -35,9 +35,10 @@ export default function boris(fig) {
   const env = fit(fig.querySelector('canvas'), (e) => { if (!size(e)) tl && tl.paint(); });
   document.fonts?.ready.then(() => size(env));
 
-  // Side by side, or on a narrow stage the laptop above the panel and the report under it.
+  // Side by side, or on a narrow stage (a phone) the laptop above the panel and the report under it,
+  // so the panel gets the full width and its text stays readable.
   function layout(w) {
-    const side = w >= 300, top = pillH();
+    const side = w >= 420, top = pillH();
     const lw = side ? w * 0.4 : Math.min(w * 0.85, 220), lx = side ? 0 : (w - lw) / 2;
     const sw = lw * 0.86, sh = sw * 0.64, sx = lx + (lw - sw) / 2, sy = top + 4;
     const lbottom = sy + sh + lw * 0.07;

@@ -43,9 +43,9 @@ export default function factory(fig) {
     tl && tl.paint();
   });
   function layout(w) {
-    const fs = Math.max(7, Math.min(11, w / 40)), cw = w / PER, s = Math.min(24, cw * 0.3);
+    const fs = Math.max(9, Math.min(11, w / 32)), cw = w / PER, s = Math.min(24, cw * 0.3);
     const pill = (fig.querySelector('.pill')?.offsetHeight || 20) + 4; // the label over the canvas
-    const top = pill + fs * 2.2, rowH = s * 1.6 + fs * 3.6;
+    const top = pill + fs * 2.2 + s * 0.6, rowH = s * 1.6 + fs * 3.6;
     return { fs, cw, s, pill, top, rowH, height: top + rowH * 3 + fs * 3.2 };
   }
 
