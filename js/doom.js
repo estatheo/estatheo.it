@@ -9,8 +9,9 @@
 //   single-key shortcuts.
 // - It runs only while it has the keyboard, is on screen and the tab is visible. Its clock
 //   stops otherwise, so nothing happens in the game while you are not playing.
-// - No keyboard (a touch screen): buttons under the screen stand in for the keys, and the game
-//   runs while the screen is in view. No sound: the engine has none.
+// - No keyboard (a touch screen): POWER turns the drawn keyboard into the controls. Its keys
+//   clear away, all but the ones the game uses, the case grows to fit, and buttons take the
+//   keys' place. The game runs while the screen is in view. No sound: the engine has none.
 const TIC = 1000 / 35; // Doom runs 35 game tics a second
 const W = 320, H = 200;
 // Browser key (KeyboardEvent.code) to Doom key code, from doomgeneric's doomkeys.h.
@@ -23,10 +24,17 @@ const KEYS = {
 };
 const doomKey = (e) => KEYS[e.code] ?? (/^(Key[A-Z]|Digit[0-9])$/.test(e.code) ? e.code.slice(-1).toLowerCase().charCodeAt(0) : 0);
 const mb = (n) => (n / 1e6).toFixed(1);
+// The drawn keyboard (build.mjs, KB_ART): rows of text, keys at these columns inside the box,
+// which starts 3 characters in. Kept while the rest clear: Enter, the arrows, Ctrl and Space.
+const KB_IN = 3;
+const KB_KEEP = [[2, 30, 33], [2, 38, 39], [3, 2, 6], [3, 7, 28], [3, 36, 41]];
+const POWER_ICON = '<svg class="pw" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M5 3.8a5.5 5.5 0 1 0 6 0M8 1.5v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 
 export default function doom(fig) {
   const stage = fig.querySelector('.stage'), still = stage.querySelector('img'), canvas = stage.querySelector('canvas');
   const pc = stage.querySelector('.pc'), boot = stage.querySelector('.pc-boot');
+  const kb = stage.querySelector('.pc-kb'), kbArt = kb.querySelector('.pc-kb-art'), KB0 = kbArt.textContent;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const btn = fig.querySelector('[data-doom-play]'), note = fig.querySelector('[data-doom-note]');
   const keysRow = fig.querySelector('[data-doom-keys]'), status = fig.querySelector('[data-doom-status]');
   const ctx = canvas.getContext('2d'), img = ctx.createImageData(W, H);
@@ -37,9 +45,9 @@ export default function doom(fig) {
   let M = null, bytes = null, onScreen = false, raf = 0, base = 0, since = null, lastTic = -1;
   const held = new Set();
 
-  // The button's text; `more` is dropped on a narrow stage (css), the accessible name keeps it all.
-  function setButton(text, label, more = '') {
-    btn.innerHTML = `[ ${text}${more ? `<span class="dl">${more}</span>` : ''} ]`;
+  // The button's text, with the power sign when it switches the computer on.
+  function setButton(text, label, icon = false) {
+    btn.innerHTML = `${icon ? POWER_ICON : ''}${text}`;
     btn.setAttribute('aria-label', label);
   }
   // The boot text: one line per real step, shown on the drawn screen while it loads.
@@ -69,15 +77,71 @@ export default function doom(fig) {
     b.addEventListener('contextmenu', (e) => e.preventDefault());
     pad.append(b);
   }
-  keysRow.after(pad);
+  kb.append(pad);
+
+  // The keyboard turns into the controls (touch only). Each frame redraws the box's text: the
+  // keys the game does not use clear away in a random order, the box grows a row at a time
+  // until the buttons fit, then the buttons show. Under reduced motion it is the last frame.
+  let morph = 0, morphed = false;
+  const kbLines = KB0.split('\n');
+  const kept = (r, c) => KB_KEEP.some(([kr, a, b]) => kr === r && c >= a && c <= b);
+  const rowOf = (inner, r, keep) => {
+    const line = kbLines[r] ?? kbLines[1];
+    let out = line.slice(0, KB_IN);
+    for (let c = 0; c < inner.length; c++) {
+      const ch = inner[c];
+      out += keep && kept(r, c) && ch !== ' ' ? `<b class="kb-keep">${ch}</b>` : ch;
+    }
+    return out + line.slice(KB_IN + inner.length);
+  };
+  const innerOf = (r) => kbLines[r].slice(KB_IN, KB_IN + 54);
+  function rowsFor() { // inner rows that hold the buttons, with half a row above and below
+    const lh = parseFloat(getComputedStyle(kbArt).lineHeight);
+    return Math.max(3, Math.ceil(pad.offsetHeight / lh + 1));
+  }
+  function drawBox(inners, keep) {
+    kbArt.innerHTML = [kbLines[0], ...inners.map((t, i) => rowOf(t, i + 1, keep)), kbLines[4]].join('\n');
+  }
+  function toControls() {
+    if (morphed) return;
+    morphed = true;
+    pad.dataset.wait = ''; pad.style.visibility = 'hidden'; pad.hidden = false; kb.dataset.pad = '';
+    const need = rowsFor(), blank = ' '.repeat(54);
+    const finish = () => { morph = 0; drawBox(Array(need).fill(blank), false); pad.style.visibility = ''; };
+    if (reduceMotion.matches) { finish(); return; }
+    const inners = [1, 2, 3].map((r) => innerOf(r).split(''));
+    const gone = [];
+    inners.forEach((row, i) => row.forEach((ch, c) => { if (ch !== ' ' && !kept(i + 1, c)) gone.push([i, c]); }));
+    for (let i = gone.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [gone[i], gone[j]] = [gone[j], gone[i]]; }
+    const t0 = performance.now(), CLEAR = 420, GROW = 40, HOLD = 160;
+    const step = () => {
+      const t = performance.now() - t0;
+      const n = Math.min(gone.length, Math.floor(gone.length * t / CLEAR));
+      for (let k = 0; k < n; k++) { const [i, c] = gone[k]; inners[i][c] = ' '; }
+      const rows = inners.map((r) => r.join(''));
+      const extra = t < CLEAR ? 0 : Math.min(need - 3, Math.floor((t - CLEAR) / GROW));
+      drawBox([...rows, ...Array(Math.max(0, extra)).fill(blank)], true);
+      if (t < CLEAR + (need - 3) * GROW + HOLD) morph = requestAnimationFrame(step); else finish();
+    };
+    morph = requestAnimationFrame(step);
+  }
+  function toKeyboard() {
+    cancelAnimationFrame(morph); morph = 0; morphed = false;
+    pad.hidden = true; pad.style.visibility = ''; delete kb.dataset.pad;
+    kbArt.textContent = KB0;
+  }
+  addEventListener('resize', () => { // a turned phone: refit the box to the buttons
+    if (!morphed || morph) return;
+    drawBox(Array(rowsFor()).fill(' '.repeat(54)), false);
+  });
 
   function showDevice() {
     const ok = keyboard.matches;
     if (state === 'idle' || state === 'ended') btn.hidden = false;
     keysRow.hidden = !ok;
-    pad.hidden = ok || state !== 'playing';
+    if (ok) toKeyboard();
     note.hidden = ok;
-    note.textContent = 'On a touch screen the buttons under the screen are the keys. It downloads 29 MB, so Wi-Fi is best.';
+    note.textContent = 'On a touch screen, POWER turns the keyboard into the controls. The download is big, so Wi-Fi is best.';
   }
   keyboard.addEventListener('change', showDevice);
   showDevice();
@@ -143,6 +207,7 @@ export default function doom(fig) {
     state = 'loading'; btn.setAttribute('aria-disabled', 'true');
     say(`The computer is on. Loading Freedoom, ${mb(total)} MB.`);
     pc.dataset.on = '';
+    if (!keyboard.matches) toControls();
     bootLines = []; bootSay('> power on');
     still.hidden = true; canvas.hidden = true; boot.hidden = false;
     try {
@@ -169,7 +234,8 @@ export default function doom(fig) {
       state = 'ended'; btn.removeAttribute('aria-disabled');
       delete pc.dataset.on;
       bootSay('> could not load. Press POWER to try again.');
-      setButton('TRY AGAIN', 'Freedoom could not load. Power on again to try again.');
+      toKeyboard();
+      setButton('TRY AGAIN', 'Freedoom could not load. Power on again to try again.', true);
       say('Freedoom could not load.');
       return;
     }
@@ -177,8 +243,8 @@ export default function doom(fig) {
     boot.hidden = true; canvas.hidden = false;
     blit();
     if (!keyboard.matches) { // touch: no focus to give, it runs while the screen is in view
-      state = 'playing'; btn.hidden = true; pad.hidden = false; note.hidden = true;
-      say('Freedoom is running. The buttons under the screen are the keys.');
+      state = 'playing'; btn.hidden = true; delete pad.dataset.wait; note.hidden = true;
+      say('Freedoom is running. The keyboard under the screen is now the controls.');
       update();
       return;
     }
@@ -193,8 +259,8 @@ export default function doom(fig) {
     const had = document.activeElement === canvas;
     canvas.hidden = true; boot.hidden = true; still.hidden = false;
     delete pc.dataset.on;
-    setButton('POWER', 'Power on again and play Freedoom.');
-    btn.hidden = false; pad.hidden = true; showDevice();
+    setButton('POWER', 'Power on again and play Freedoom.', true);
+    btn.hidden = false; toKeyboard(); showDevice();
     if (had) btn.focus();
     give(false);
     say('Freedoom has ended.');
@@ -219,7 +285,7 @@ export default function doom(fig) {
     if (state !== 'playing' || !keyboard.matches) return;
     state = 'paused';
     give(false);
-    setButton('<span class="dl">PAUSED: </span>PLAY', 'Freedoom is paused. Resume it.');
+    setButton('PLAY', 'Freedoom is paused. Resume it.');
     btn.hidden = false;
     say('Freedoom paused. The keyboard is the page\'s again.');
     update();
