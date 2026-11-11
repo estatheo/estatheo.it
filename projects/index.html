@@ -71,7 +71,7 @@
         <li><a href="#factory">Venture factory</a> <span class="meta">Skulpt, Loafy</span></li>
         <li><a href="#saas">SaaS</a> <span class="meta">Optly, Boris</span></li>
         <li><a href="#hardware">Hardware</a> <span class="meta">Bacchette, Eddy, a smart home hub</span></li>
-        <li><a href="#software">Software</a> <span class="meta">Ascolta, Tunes, Lookaway, three smaller tools</span></li>
+        <li><a href="#software">Software</a> <span class="meta">Ascolta, Tunes, Lookaway, claude-doom</span></li>
       </ul>
     </div>
   </section>
@@ -86,10 +86,9 @@
       
     </div>
     <figure class="fig small" data-fig="factory">
-        <p class="vh">The venture factory, step by step. An idea arrives as a one-page brief. One step at a time, an agent turns the brief into the venture's claims and budget, three agents research the market, supply and names, and I sign the first owner gate. An agent drafts two brand directions, agents write the claims and funnel plan, a script estimates the cost of the drafts, and I sign the second gate. Two agents write the site and channel content, scripts build the site, ads and stills, agents draft the copy for each channel, and a checker reads the copy against the claims. The last gate, approval to publish, is left waiting for me: nothing goes out until I sign it.</p>
-        <div class="stage stage-pre">
-          <pre class="term wide" aria-hidden="true" style="min-height:25.5em"></pre>
-          <span class="pill" aria-hidden="true" style="left:0;top:0">ONE IDEA, THREE OWNER GATES</span>
+        <div class="stage" style="--ar:560/470">
+          <canvas role="img" aria-label="The venture factory as a production line. An idea is typed in as a one-page brief, and the brief rides a belt that snakes past twelve stations, in the order of the factory's launch formula. At intake an agent turns the brief into the venture's claims and budget; three agents research the market, supply and names; at gate 1 I sign the name, market and budget, and the barrier lifts. An agent drafts two brand directions, two agents write the claims and funnel plan, a script estimates the cost of the drafts, and at gate 2 I pick a direction. Two agents write the site and channel content, scripts build the site, ads and stills, agents draft the copy for each channel, and a checker reads the copy against the claims. At gate 3, approval to publish, the barrier stays down and waits for me: nothing goes out until I sign it."></canvas>
+          <span class="pill" aria-hidden="true" style="left:0%;top:0%">ONE IDEA, THREE OWNER GATES</span>
         </div>
         <figcaption><span>fig. 1: the venture factory: agents draft, scripts check, I sign the gates.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
         
@@ -102,7 +101,14 @@
       <p>Upload an AWS architecture diagram and get a 3D-printed model of it for your desk. Each resource has a light that is green when it is healthy and red when it is not.</p>
       
     </div>
-    
+    <figure class="fig small" data-fig="skulpt">
+        <div class="stage" style="--ar:560/290">
+          <canvas role="img" aria-label="A desk with a laptop on it. On the laptop's screen, an example architecture diagram with five resources, a load balancer, two app servers, a queue and a database, joined by lines. The diagram is sent to be printed, and beside the laptop a model of it appears on the desk: a base with the links on it, then each resource rises as a small block with one light. The lights come on green. The database light turns red, because the database is not healthy, and the others stay green. The diagram is an example."></canvas>
+          <span class="pill" aria-hidden="true" style="left:2%;top:2%">GREEN WHEN HEALTHY, RED WHEN NOT</span>
+        </div>
+        <figcaption><span>fig. 2: Skulpt. A diagram becomes a desk model with a light per resource.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
+        
+      </figure>
   </section>
 
   <section class="row personal">
@@ -112,9 +118,15 @@
         <p>Made with the venture factory, from the research to the brand and the landing page.</p>
       
     </div>
-    <figure class="fig small still thumb">
-        <img src="/img/loafy-concept-960.jpg" width="960" height="540" alt="A pair of loafers on a dark surface, seen from the front left. A computer-made concept image, not a photograph of a real pair." loading="lazy" decoding="async">
-        <figcaption><span>fig. 2: Concept render. Prototype in development.</span></figcaption>
+    <figure class="fig small" data-fig="loafy">
+        <div class="stage" style="--ar:560/410">
+          <canvas role="img" aria-label="Loafy, run by agents. Ten small desks, each with an agent at it, light up in turn: research, brand, claims, site, copy, ads, email, outreach, a deck, and the weekly loop of posts and a report. Under them are my three owner gates, which the work reaches in turn; all three wait for me, and nothing is published until I sign. Below, the concept render goes through passes: a grey scene with the shoes in plain clay, a coarse grainy draft, a check of the draft against the brief and the claims list, which passes the brief and the claims and asks for the caption, then a sharper revised pass with the caption, and last the final render, shown under the drawing with its caption: Concept render. Prototype in development. The earlier passes are drawn from the final render to show the idea."></canvas>
+        </div>
+        <figure class="render">
+          <img src="/img/loafy-concept-960.jpg" width="960" height="540" alt="A pair of loafers on a dark surface, seen from the front left. A computer-made concept image, not a photograph of a real pair." loading="lazy" decoding="async">
+          <figcaption>Concept render. Prototype in development.</figcaption>
+        </figure>
+        <figcaption><span>fig. 3: Loafy. Agents run the business; the render is one of their jobs.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
       </figure>
   </section>
 
@@ -129,12 +141,32 @@
       <p>Broadcast messaging for businesses on Instagram and Messenger, built on Meta's official APIs. A business connects its Page and Instagram account, grows a list of followers who opted in, and schedules campaigns to them.</p>
         <p>Consent comes first: every send is checked against the follower's opt-in and Meta's messaging rules just before it goes, and opt-outs, deliveries, reads and replies come back as they happen.</p>
       <p class="meta">Next.js, TypeScript, Prisma, BullMQ</p>
+    </div>
+    <figure class="fig small" data-fig="optly">
+        <div class="stage" style="--ar:560/560">
+          <canvas role="img" aria-label="A campaign in Optly, drawn as a sender's table over three phones. A follower opts in by tapping Get Started in Messenger, and consent is recorded as granted. A campaign then goes to three followers. Just before each send, three things are checked for that follower: consent, an open 24-hour messaging window, and an approved template. The first two pass and are sent; the third has no open window, so it is skipped and the reason is kept. Then Meta reports back as things happen: the Messenger message is delivered, read and replied to, the Instagram message is read, and that follower sends STOP and is opted out. Each phone shows its chat: the Get Started button, the campaign message arriving on the first two and never sent to the third, a reply on the first and STOP on the second. The followers are examples."></canvas>
+          <span class="pill" aria-hidden="true" style="left:0%;top:0%">CHECKED JUST BEFORE EACH SEND</span>
+        </div>
+        <figcaption><span>fig. 4: Optly. Consent first, then the send, then what comes back.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
+        
+      </figure>
+  </section>
+
+  <section class="row personal">
+    <div class="text">
       <h3 id="boris">BORIS</h3>
-      <p>Device compliance for small companies that run on Macs and have no IT team. Every Mac is set up to the company's compliance framework from first boot, stays that way without daily attention, and the admin can prove it to clients, auditors and investors.</p>
+      <p>Device compliance for small companies that run on Macs and have no IT team. Every Mac is set up to the company's compliance framework from first boot, stays that way without daily attention, and the admin can prove it to customers, auditors and investors.</p>
         <p>An admin panel holds the policies. Built-in Apple device management and a small menu-bar app set up and watch each Mac, with live status, alerts when a Mac drifts, and reports. AI chat and MCP work on the same rules.</p>
       <p class="meta">Apple MDM, macOS</p>
     </div>
-    
+    <figure class="fig small" data-fig="boris">
+        <div class="stage" style="--ar:560/400">
+          <canvas role="img" aria-label="A Mac under Boris, drawn as a laptop beside the admin panel. A new Mac registered in Apple Business Manager enrols on first boot and sets itself up to the company policy, a framework and a tier, with no admin action: disk encryption, firewall and screen lock all pass. Later a regular scan finds the firewall off. The admin gets an alert, the Boris agent turns the firewall back on because the policy allows it, and a rescan passes. The drift stays on the record, and a signed compliance report for the chosen framework and period comes out, as a small document marked signed. The Mac and the dates are examples."></canvas>
+          <span class="pill" aria-hidden="true" style="left:0%;top:0%">SET UP AT FIRST BOOT, KEPT THAT WAY</span>
+        </div>
+        <figcaption><span>fig. 5: Boris. Drift is found, fixed, and still on the record.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
+        
+      </figure>
   </section>
 
   <section class="row personal chapter" id="hardware">
@@ -154,7 +186,7 @@
           <canvas role="img" aria-label="Two drum sticks trace dotted arcs down onto four zones: hi-hat, snare, tom and ride. Each hit shows a ring and a MIDI note-on. A line of text steps through the firmware states idle, armed, fire and refractory."></canvas>
           
         </div>
-        <figcaption><span>fig. 3: Bacchette. The note fires before the stick stops.</span> <span class="ctl"><span class="pads mctl" role="group" aria-label="Play a drum"><button type="button" data-hit="0">[ HI-HAT ]</button><button type="button" data-hit="1">[ SNARE ]</button><button type="button" data-hit="2">[ TOM ]</button><button type="button" data-hit="3">[ RIDE ]</button></span><button type="button" class="mctl" data-pause>[ PAUSE ]</button></span></figcaption>
+        <figcaption><span>fig. 6: Bacchette. The note fires before the stick stops.</span> <span class="ctl"><span class="pads mctl" role="group" aria-label="Play a drum"><button type="button" data-hit="0">[ HI-HAT ]</button><button type="button" data-hit="1">[ SNARE ]</button><button type="button" data-hit="2">[ TOM ]</button><button type="button" data-hit="3">[ RIDE ]</button></span><button type="button" class="mctl" data-pause>[ PAUSE ]</button></span></figcaption>
         
       </figure>
   </section>
@@ -171,7 +203,7 @@
           <canvas role="img" aria-label="A pixel pet in a helmet stands beside its status: level 7, an experience bar, and four needs called food, drink, fun and rest. A task is finished and the pet eats; food goes up. A review is done and the pet celebrates; fun goes up. The experience bar fills and the pet reaches level 8."></canvas>
           <span class="pill" aria-hidden="true" style="left:2%;top:2%">FED BY THE DAY, NOT BY BUTTONS</span>
         </div>
-        <figcaption><span>fig. 4: Eddy. A finished task is a meal.</span> <span class="ctl"><button type="button" class="mctl" data-pause>[ PAUSE ]</button><button type="button" class="mctl" data-replay>[ REPLAY ]</button></span></figcaption>
+        <figcaption><span>fig. 7: Eddy. A finished task is a meal.</span> <span class="ctl"><button type="button" class="mctl" data-pause>[ PAUSE ]</button><button type="button" class="mctl" data-replay>[ REPLAY ]</button></span></figcaption>
         
       </figure>
   </section>
@@ -189,7 +221,7 @@
     <div class="text">
       <p class="orn">~*~ software ~*~</p>
       <h2>SOFTWARE</h2>
-      <p>Programs for my own use. One of them is public.</p>
+      <p>Programs for my own use. Two of them are public.</p>
       
       
       <h3 id="ascolta">ASCOLTA</h3>
@@ -199,10 +231,10 @@
     </div>
     <figure class="fig small" data-fig="ascolta">
         <div class="stage" style="--ar:560/400">
-          <canvas role="img" aria-label="A line of sound for one day is drawn along a 24-hour axis, heard by the iPhone and AirPods for part of the day and by the Mac for the rest. The line then folds into six episodes. Each episode links to one daily note and some link to each other, as notes in an Obsidian vault."></canvas>
+          <canvas role="img" aria-label="Over a 24-hour axis, an iPhone and a pair of AirPods are drawn above one half of the day and a Mac above the other: they are what hears it. A line of sound for the day runs along the axis, then folds into six episodes, walk, call, idea, lunch, gym and note, which become small note pages in a frame marked Obsidian vault. Each page links to one daily note and some link to each other."></canvas>
           <span class="pill" aria-hidden="true" style="left:2%;top:2%">ON ALL DAY, FILED BY ITSELF</span>
         </div>
-        <figcaption><span>fig. 5: Ascolta. A day of speech becomes linked notes.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
+        <figcaption><span>fig. 8: Ascolta. A day of speech becomes linked notes.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
         
       </figure>
   </section>
@@ -212,18 +244,86 @@
       <h3 id="tunes">TUNES</h3>
       <p>An iOS music player with one user. The brief I gave it: find, play and keep a song in two taps. A small Python service on my home Mac does the fetching, reached over Tailscale, and a SwiftUI app owns the library.</p>
       <p class="meta">SwiftUI, Python, Docker</p>
+    </div>
+    
+  </section>
+
+  <section class="row personal">
+    <div class="text">
       <h3 id="lookaway">LOOKAWAY</h3>
       <p>A menu-bar app for macOS. It uses the Mac's camera to see whether I am sitting in front of it. When I walk away it blocks the keyboard and mouse, and when I sit back down it recognises my face and unblocks them.</p>
         <p>Everything runs on the Mac: no account, no internet, and no photos are saved. The code is public at <a href="https://github.com/estatheo/lookaway">github.com/estatheo/lookaway</a>.</p>
       <p class="meta">Swift, macOS 14 or newer</p>
-      <h3 id="tools">SMALLER TOOLS</h3>
-      <ul class="roles">
-        <li><p><b>controlp</b></p><p>A side pane for Claude Code that shows what my coding agents are doing: what each one is on, what needs me and what got finished.</p></li>
-        <li><p><b>townview</b></p><p>The same view on a phone, served from my Mac over Tailscale. I can watch the agents, look at any terminal and send one a nudge.</p></li>
-        <li><p><b>claude-doom</b></p><p>Doom in a Claude Code pane. It plays Freedoom, drawn in the terminal as half-block characters.</p></li>
-      </ul>
     </div>
-    
+    <figure class="fig small" data-fig="lookaway">
+        <div class="stage" style="--ar:560/400">
+          <canvas role="img" aria-label="A desk seen from the side: a screen with a camera on top, a keyboard and a mouse, and me on a chair in front of it. The camera sees my face, and the screen reads: you are here. I get up and walk out of the picture, and a five-second grace period counts down on the screen; then the keyboard and mouse are blocked. I come back and sit down, my face is found and compared with my enrolled face, it matches, and the keyboard and mouse work again. Nothing is saved and nothing leaves the Mac."></canvas>
+          <span class="pill" aria-hidden="true" style="left:2%;top:2%">ONLY MY FACE UNBLOCKS IT</span>
+        </div>
+        <figcaption><span>fig. 9: Lookaway. Away, blocked; back, recognised, unblocked.</span> <span class="ctl"><button type="button" class="mctl" data-play>[ PAUSE ]</button></span></figcaption>
+        
+      </figure>
+  </section>
+
+  <section class="row personal">
+    <div class="text">
+      <h3 id="claude-doom">CLAUDE-DOOM</h3>
+      <p>Doom in a Claude Code pane. Typing /doom opens a pane beside the conversation that plays Freedoom, drawn in the terminal as half-block characters, two pixels to a character. It needs no image support, so it also runs inside tmux.</p>
+        <p>The engine is doomgeneric with a small backend of mine that writes each frame as terminal cells; the pane redraws them 30 times a second. Click the bar under the picture to give it the keyboard, and Esc gives it back. The code is public at <a href="https://github.com/estatheo/claude-doom">github.com/estatheo/claude-doom</a>.</p>
+        <p>Fig. 10 is the same engine built for the browser, so you can play Freedoom here.</p>
+      <p class="meta">C, TypeScript, Claude Code</p>
+    </div>
+    <figure class="fig small" data-fig="doom">
+        <div class="stage doom">
+          <div class="pc">
+            <pre class="pc-art" aria-hidden="true">    .--------------------------------------------------.    
+    |    .----------------------------------------.    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    |                                        |    |    
+    |    '----------------------------------------'    |    
+    |                                ::::::  ( )  ( )  |    
+    '--------------------------------------------------'    
+                    _|________________|_                    
+ .--------------------------------------------------------. 
+ |  .----------------------.                              | 
+ |  |  ==================  |  <span class="pc-led">o</span>                           | 
+ |  '----------------------'                              | 
+ '--------------------------------------------------------' 
+                                                            
+  .------------------------------------------------------.  
+  | [][][][][][][][][][][][][][]  [][][]  [][][][]       |  
+  | [__][][][][][][][][][][][][][__] [][][]  [][][][]    |  
+  | [___][______________________][___]   []    [][][][]  |  
+  '------------------------------------------------------'  </pre>
+            <div class="pc-screen">
+              <img src="/doom/title.png" width="320" height="200" alt="An old desktop computer drawn in text characters, a monitor on a case with a floppy slot, and a keyboard. The monitor shows the Freedoom title screen: the word Freedoom over a red sky, a marine in green armour between two monsters, and the version, 0.13.0." loading="lazy" decoding="async">
+              <pre class="pc-boot" aria-hidden="true" hidden></pre>
+              <canvas width="320" height="200" tabindex="-1" role="application" aria-label="Freedoom, running on the drawn computer's screen. It has the keyboard: arrows or W, A, S, D move, F fires, Space uses, Enter picks a menu item, M opens the menu. Escape gives the keyboard back and pauses the game." hidden></canvas>
+            </div>
+            <div class="pc-power">
+              <button type="button" class="doom-play" data-doom-play aria-label="Power on the computer and play Freedoom. Downloads 29.2 MB." hidden>[ POWER<span class="dl">: 29.2 MB</span> ]</button>
+            </div>
+          </div>
+        </div>
+        <p class="doom-note" data-doom-note>Playing it needs JavaScript and a keyboard.</p>
+        <p class="doom-keys" data-doom-keys hidden><kbd>&larr;</kbd> <kbd>&rarr;</kbd> <kbd>&uarr;</kbd> <kbd>&darr;</kbd> or <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> move &nbsp;<kbd>CTRL</kbd> or <kbd>F</kbd> fire &nbsp;<kbd>SPACE</kbd> use &nbsp;<kbd>ENTER</kbd> pick &nbsp;<kbd>M</kbd> menu &nbsp;<kbd>ESC</kbd> release</p>
+        <p class="vh" aria-live="polite" data-doom-status></p>
+        <figcaption><span>fig. 10: Freedoom, in claude-doom's engine built for the browser. Every level, sprite and texture is Freedoom's own. No sound.</span></figcaption>
+        <p class="meta doom-lic">Engine: doomgeneric, <a href="/doom/LICENSE-GPL-2.0.txt">GPL-2.0</a>, <a href="/doom/SOURCE.txt">source</a>. Game data: Freedoom, <a href="/doom/FREEDOOM-COPYING.txt">BSD licence</a>.</p>
+      </figure>
   </section>
 
 </main>

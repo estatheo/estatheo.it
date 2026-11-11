@@ -153,12 +153,15 @@ function currentSection() {
   sections.forEach((s, i) => { if (s.getBoundingClientRect().top <= innerHeight / 3) at = i; });
   return at;
 }
-// The figure in view: the moving figure with the most of itself on screen.
+// The figure in view: the one whose drawing crosses the middle of the window, or else the
+// one with the most of itself on screen (a tall figure must not win over a short one in the middle).
 function figureInView() {
   let best = null, most = 0;
+  const mid = innerHeight / 2;
   for (const f of document.querySelectorAll('.fig[data-fig]')) {
     const r = f.querySelector('.stage')?.getBoundingClientRect();
     if (!r) continue;
+    if (r.top <= mid && r.bottom >= mid && r.width) return f;
     const seen = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0));
     if (seen > most) { most = seen; best = f; }
   }
@@ -169,7 +172,8 @@ const figName = (f) => f.querySelector('figcaption span')?.textContent.split(':'
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
 addEventListener('keydown', (e) => {
-  if (!keysOn || !desktop.matches || e.defaultPrevented) return;
+  // While a game has the keyboard (js/doom.js sets data-game) every key is the game's.
+  if (!keysOn || !desktop.matches || e.defaultPrevented || 'game' in root.dataset) return;
   if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.isComposing) return;
   const el = document.activeElement;
   if (typing(el)) return;

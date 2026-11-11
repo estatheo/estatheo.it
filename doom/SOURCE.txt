@@ -1,0 +1,41 @@
+Freedoom on estatheo.it: licences and source
+=============================================
+
+What is here
+
+  engine.js, engine.wasm   The game engine, built for the browser with Emscripten.
+  freedoom1.wad            Freedoom: Phase 1, version 0.13.0, unchanged.
+  title.png                Freedoom's own title picture (the TITLEPIC lump), drawn from freedoom1.wad.
+  src/                     The browser backend and the build script (see below).
+
+The engine: GNU GPL, version 2
+
+  engine.js and engine.wasm are doomgeneric (https://github.com/ozkl/doomgeneric), which is
+  based on Chocolate Doom and the Doom source released by id Software, plus a small backend of
+  mine for web pages. They are licensed under the GNU General Public License, version 2. The
+  full text is in LICENSE-GPL-2.0.txt, next to this file:
+  https://estatheo.it/doom/LICENSE-GPL-2.0.txt
+
+  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU General Public License for more details.
+
+  engine.js also contains Emscripten's runtime, and engine.wasm parts of Emscripten's C
+  library (musl) and compiler runtime; those parts are under Emscripten's own MIT-style
+  licences (https://github.com/emscripten-core/emscripten/blob/main/LICENSE).
+
+The complete corresponding source
+
+  1. The engine source: https://github.com/estatheo/claude-doom
+     at commit 265ca581e006f55aaaf90dbc0fc4a9de58e0fee1,
+     folder vendor/doomgeneric/doomgeneric.
+  2. The browser backend: https://estatheo.it/doom/src/doomgeneric_web.c
+  3. The build script, with every compiler flag: https://estatheo.it/doom/src/build.sh
+     Built with Emscripten 7.0.0:  doom/src/build.sh path/to/claude-doom
+
+The game data: Freedoom, BSD licence
+
+  freedoom1.wad is Freedoom (https://freedoom.github.io), a free game with its own original
+  levels, sprites, textures and sounds. It contains no data from id Software's Doom. Its
+  licence is in FREEDOOM-COPYING.txt, next to this file:
+  https://estatheo.it/doom/FREEDOOM-COPYING.txt

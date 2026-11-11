@@ -6,6 +6,7 @@
    Every text pair is checked with contrast-check.py; ratios are in README.md. */
 :root {
   --bg: #f7f7f8; --fg: #1a1a1c; --grey: #62616a; --line: #8a8990; --link: #1f6fc4;
+  --ok: #1a7f37; --bad: #c62828; /* Skulpt's lights only: 4.74 and 5.25 on --bg */
   --pill-bg: #1a1a1c; --pill-fg: #f7f7f8;
   --mono: "Commit Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --pad: 1.25rem;
@@ -13,13 +14,13 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0;
+    --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0; --ok: #3fb950; --bad: #f0605a;
     --pill-bg: #e8e8ea; --pill-fg: #151516;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0;
+  --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0; --ok: #3fb950; --bad: #f0605a;
   --pill-bg: #e8e8ea; --pill-fg: #151516;
   color-scheme: dark;
 }
@@ -134,18 +135,74 @@ pre.ascii-pre b { font-weight: 700; }
 .stage canvas { display: block; width: 100%; height: 100%; }
 .fig[data-fig="hero"] canvas { touch-action: pan-y; cursor: grab; }
 .fig[data-fig="hero"] canvas.dragging { cursor: grabbing; }
-.stage-pre { aspect-ratio: auto; padding-top: 2.25rem; }
+.stage-pre { aspect-ratio: auto; display: flex; flex-direction: column; align-items: flex-start; }
+/* In a text figure the label sits above the text, not over it, so a label that wraps on a
+   very narrow screen pushes the text down instead of covering its first line. */
+.stage-pre > .pill { position: static; order: -1; margin-bottom: 0.9rem; }
+/* On a phone the desk scenes get more height: Lookaway's person and desk stay readable, and
+   Skulpt's laptop moves above its model (js/lookaway.js, skulpt.js). */
+@media (max-width: 26rem) { .fig[data-fig="lookaway"] .stage { aspect-ratio: 10 / 9; } }
+@media (max-width: 22rem) {
+  .fig[data-fig="lookaway"] .stage { aspect-ratio: 1; }
+  .fig[data-fig="skulpt"] .stage { aspect-ratio: 1; }
+}
+@media (max-width: 15rem) { .fig[data-fig="skulpt"] .stage, .fig[data-fig="lookaway"] .stage { aspect-ratio: 3 / 4; } }
 /* Text figures. Sized so the widest line (40 characters, or 48 for .wide; the font
    advances 0.6em) always fits the column, down to very narrow or zoomed screens. */
 pre.term { font: 400 0.75rem/1.5 var(--mono); white-space: pre; }
 pre.term { font-size: min(0.75rem, calc((100vw - 2 * var(--pad)) / 24.1)); }
 pre.term.wide { font-size: min(0.75rem, calc((100vw - 2 * var(--pad)) / 28.9)); }
 pre.term .dim { color: var(--grey); }
-/* The factory table types in from an almost empty first line, so its width is held from the start. */
-.fig[data-fig="factory"] pre.term { min-width: 48ch; }
+/* Loafy: the canvas (desks, gates, the render's passes), then the final render as a real image
+   with its caption. Its space is held from the start, so nothing shifts when it fades in. */
+.fig .render { margin-top: 0.75rem; max-width: 27rem; transition: opacity 0.5s; }
+.fig .render.off { visibility: hidden; }
+.fig .render img { display: block; width: 100%; height: auto; }
+.fig .render figcaption { margin-top: 0.4em; display: block; }
+@media (prefers-reduced-motion: reduce) { .fig .render { transition: none; } }
+/* On a narrow stage Loafy's desks go three to a row and the gates one under the other;
+   js/loafy.js then sets the exact height. */
+@media (max-width: 21.25rem) { .fig[data-fig="loafy"] .stage { aspect-ratio: 10 / 13; } }
+@media (max-width: 15rem) { .fig[data-fig="loafy"] .stage { aspect-ratio: 10 / 18; } }
 pre.term b { font-weight: 700; }
 pre.term .hit { color: var(--link); }
 .fig-error { color: var(--grey); padding: 1rem 0; }
+/* Freedoom (js/doom.js). Doom's 320 by 200 picture is shown at 4:3, as on the screens it was
+   made for, in square pixels. The frame line and the focus ring follow the theme; the ring
+   shows whenever the game has the keyboard, mouse or not. */
+/* The game sits in the screen of a computer drawn in text (build.mjs, PC_ART: 60 columns by
+   32 rows). The drawing's font is sized from the stage's width, so the columns always fill it,
+   and the screen, the button and the boot text are placed in the same em, on the same cells. */
+.stage.doom { aspect-ratio: auto; container-type: inline-size; }
+.pc { position: relative; font: 400 calc(100cqw / 36) / 1.2 var(--mono); }
+.pc-art { font: inherit; white-space: pre; color: var(--grey); }
+.pc-led { color: inherit; }
+.pc[data-on] .pc-led { color: var(--link); font-weight: 700; }
+.pc-screen { position: absolute; left: 6em; top: 2.4em; width: 24em; height: 18em; background: #000; }
+.pc-screen img, .pc-screen canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.pc-screen [hidden], .pc-power [hidden] { display: none; }
+.pc-screen canvas:focus { outline: 2px solid var(--link); outline-offset: 3px; }
+/* The boot text is a terminal on the drawn screen, so it is light on black in both themes. */
+.pc-boot { position: absolute; inset: 0; padding: 0.6em 1ch; margin: 0; font: inherit; color: #d6d6d8; white-space: pre; overflow: hidden; }
+/* The POWER button, on the right of the case (columns 33 to 58, rows 22 to 24). */
+.pc-power { position: absolute; left: 19.8em; top: 26.4em; width: 15em; height: 3.6em; display: flex; align-items: center; justify-content: center; }
+.doom-play {
+  font-size: 0.75rem; white-space: nowrap; background: var(--bg); color: var(--fg); padding: 0.25rem 0.75ch; min-height: 1.75rem; text-align: center;
+}
+.doom-play:hover { color: var(--link); }
+.doom-play[aria-disabled="true"] { cursor: progress; color: var(--grey); }
+/* On a narrow stage the button keeps to the case: "[ POWER ]". Its name still says the download. */
+@container (max-width: 22rem) { .doom-play .dl { display: none; } }
+/* A phone-sized window with a mouse: the button keeps the site's 44px touch height, over the case lines. */
+@media (max-width: 43.99rem) { .doom-play { min-height: 2.75rem; } }
+@container (max-width: 13rem) { .doom-play { font-size: 0.625rem; padding-inline: 0; } }
+.doom-note, .doom-keys, .doom-lic { margin-top: 0.75rem; max-width: 27rem; }
+.doom-note { color: var(--grey); }
+.doom-keys { color: var(--grey); line-height: 1.9; }
+.doom-keys kbd { font: inherit; color: var(--fg); }
+.doom-keys kbd::before { content: "[" / ""; color: var(--grey); }
+.doom-keys kbd::after { content: "]" / ""; color: var(--grey); }
+.doom-lic { margin-top: 0.4rem; }
 
 .pill {
   position: absolute; max-width: 100%;
@@ -159,15 +216,12 @@ figcaption .pads { display: inline-flex; flex-wrap: wrap; gap: 0 1.5ch; }
 figcaption button { min-height: 2.75rem; min-width: 2.75rem; }
 .conn { display: none; color: var(--line); }
 .fig.small .stage, .fig.small figcaption { max-width: 27rem; }
-/* A still image in a figure. Its width and height attributes reserve the space. */
-.fig.still img { display: block; width: 100%; max-width: 27rem; height: auto; }
-/* The Loafy render is a small example under its venture, not the group's figure. */
-.fig.still.thumb img, .fig.still.thumb figcaption { max-width: 18rem; }
 
 /* Controls that only make sense while things move (.mctl) are hidden under reduced
    motion, where every figure is a still frame and the hero cannot be dragged. */
 html:not(.js) .ctl { display: none; }
 html:not(.js) .fig .stage { display: none; }
+html:not(.js) .fig[data-fig="doom"] .stage { display: block; }
 @media (prefers-reduced-motion: reduce) {
   .mctl { display: none !important; }
   .fig[data-fig="hero"] canvas { cursor: default; }
@@ -263,3 +317,7 @@ html:not(.js) .theme { display: none; }
 .row.solo .text { max-width: none; }
 .row.solo .text > :not(.ascii-wrap) { max-width: 70ch; }
 .row.solo .ascii-wrap { max-width: 104ch; }
+
+/* Ascolta's devices, day and vault need height on a phone (js/ascolta.js). */
+@media (max-width: 26rem) { .fig[data-fig="ascolta"] .stage { aspect-ratio: 1; } }
+@media (max-width: 15rem) { .fig[data-fig="ascolta"] .stage { aspect-ratio: 3 / 4; } }
