@@ -1,0 +1,265 @@
+/* Commit Mono, SIL Open Font Licence 1.1. See fonts/LICENCE.md. */
+@font-face { font-family: "Commit Mono"; src: url("../fonts/commit-mono-latin-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Commit Mono"; src: url("../fonts/commit-mono-latin-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+/* Colour. Hex values, not light-dark(), so the canvas code can read them back.
+   Every text pair is checked with contrast-check.py; ratios are in README.md. */
+:root {
+  --bg: #f7f7f8; --fg: #1a1a1c; --grey: #62616a; --line: #8a8990; --link: #1f6fc4;
+  --pill-bg: #1a1a1c; --pill-fg: #f7f7f8;
+  --mono: "Commit Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --pad: 1.25rem;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0;
+    --pill-bg: #e8e8ea; --pill-fg: #151516;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0;
+  --pill-bg: #e8e8ea; --pill-fg: #151516;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 100%; -webkit-text-size-adjust: 100%; scroll-padding-top: 1.5rem; }
+/* The page keeps clear of a phone's notch and rounded corners (viewport-fit=cover),
+   and leaves room at the bottom so the theme button never covers the last line. */
+body {
+  margin: 0; padding: var(--pad);
+  padding-left: max(var(--pad), env(safe-area-inset-left));
+  padding-right: max(var(--pad), env(safe-area-inset-right));
+  padding-bottom: calc(var(--pad) + 3.75rem + env(safe-area-inset-bottom));
+  background: var(--bg); color: var(--fg);
+  font: 400 0.8125rem/1.7 var(--mono); /* 13px on a phone */
+  font-variant-ligatures: none;
+}
+h1, h2, h3, p, ul, figure, pre { margin: 0; }
+h1, h2, h3 { font-size: inherit; font-weight: 700; text-transform: uppercase; }
+h1::before { content: "# " / ""; color: var(--grey); font-weight: 400; }
+h2::before { content: "## " / ""; color: var(--grey); font-weight: 400; }
+h3::before { content: "### " / ""; color: var(--grey); font-weight: 400; }
+
+.text > * + * { margin-top: 1.7em; }
+.text > h3 { margin-top: 2.55em; }
+.text > h2 + *, .text > h3 + *, .text > h1 + * { margin-top: 1.7em; }
+.text { max-width: 70ch; min-width: 0; }
+/* A long address (a profile URL, a repository) may break anywhere rather than widen a zoomed phone. */
+.text a, .text .meta, .foot a { overflow-wrap: anywhere; }
+
+.orn, .meta, .todo, figcaption { color: var(--grey); }
+.note { color: var(--grey); }
+.todo { overflow-wrap: anywhere; }
+
+/* Controls and links. cursor: pointer is set once here for every control. */
+a, button, summary, [role="button"] { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:active, button:active { opacity: 0.6; }
+button {
+  font: inherit; color: var(--fg); background: none; border: 0; padding: 0; margin: 0;
+  text-transform: uppercase;
+}
+button:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 1px; }
+
+/* Bracketed links: [ GITHUB ] */
+.br { color: var(--fg); text-decoration: none; text-transform: uppercase; display: inline-block; }
+.br::before { content: "[ "; color: var(--grey); }
+.br::after { content: " ]"; color: var(--grey); }
+.br:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.skip { position: absolute; left: var(--pad); top: -4rem; background: var(--bg); padding: 0.5rem; }
+.skip:focus { top: 0.5rem; z-index: 5; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Header: three lines top left, bracket links top right */
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.ident { text-transform: uppercase; line-height: 1.5; }
+.cursor { display: inline-block; }
+.top ul { list-style: none; padding: 0; text-align: right; line-height: 1.5; }
+/* On a phone the links sit under the name as a wrapped row with 44px touch height. */
+.top { flex-direction: column; gap: 0.75rem; }
+.top ul { display: flex; flex-wrap: wrap; gap: 0 2.5ch; text-align: left; }
+.top li > * { display: inline-block; padding-block: 0.75rem; }
+/* The page you are on is bold in the page links, and says so to a screen reader. */
+.br[aria-current="page"] { font-weight: 700; }
+.br[aria-current="page"]::before, .br[aria-current="page"]::after { color: var(--fg); font-weight: 400; }
+
+main { margin-top: 3.5rem; }
+.row { margin-top: 4rem; }
+.row:first-child { margin-top: 0; }
+.row.personal:not(.chapter) { margin-top: 3.5rem; }
+/* A role inside an era: its dates and title sit tight under the company name. */
+.text > h3 + .meta.when { margin-top: 0.35em; }
+.text.more { margin-top: 2.55em; }
+.text > .meta.when + h3 { margin-top: 2.55em; }
+
+ul.star { list-style: none; padding-left: 1.5ch; }
+ul.star li { padding-left: 3ch; text-indent: -3ch; }
+ul.star li::before { content: "*  "; color: var(--grey); white-space: pre; }
+ul.star a { display: inline; }
+/* A group of shorter roles, or of small tools: name in bold, dates in grey, one paragraph. */
+ul.roles { list-style: none; padding-left: 1.5ch; }
+ul.roles li { padding-left: 3ch; position: relative; }
+ul.roles li + li { margin-top: 1.1em; }
+ul.roles li::before { content: "*"; color: var(--grey); position: absolute; left: 0; }
+ul.roles b { font-weight: 700; text-transform: uppercase; }
+ul.roles .meta { display: block; }
+ul.roles p + p { margin-top: 0.35em; }
+.text > h3 + ul.roles { margin-top: 1.1em; }
+/* On small screens the contents list gets taller rows so each link is a fair target */
+@media (max-width: 43.99rem) { ul.star li { padding-block: 0.7rem; } }
+
+/* ASCII tables. The real <table> stays in the DOM for screen readers and no-JS;
+   js/main.js draws the +---+ version next to it at whatever width fits. */
+.ascii-wrap { overflow-x: auto; position: relative; }
+table.ascii { border-collapse: collapse; width: 100%; }
+table.ascii th, table.ascii td { text-align: left; vertical-align: top; font-weight: 400; padding: 0.2em 1ch 0.2em 0; border-top: 1px dashed var(--line); }
+table.ascii thead th { text-transform: uppercase; font-weight: 700; }
+table.ascii [data-todo] { color: var(--grey); }
+table.ascii tbody th { white-space: nowrap; }
+pre.ascii-pre { font: inherit; line-height: 1.7; white-space: pre; overflow: hidden; }
+pre.ascii-pre .rule { color: var(--grey); }
+pre.ascii-pre .todo { color: var(--grey); }
+pre.ascii-pre b { font-weight: 700; }
+
+/* Figures */
+.fig { margin-top: 2rem; min-width: 0; }
+.stage { position: relative; width: 100%; max-width: 35rem; aspect-ratio: var(--ar); }
+.stage canvas { display: block; width: 100%; height: 100%; }
+.fig[data-fig="hero"] canvas { touch-action: pan-y; cursor: grab; }
+.fig[data-fig="hero"] canvas.dragging { cursor: grabbing; }
+.stage-pre { aspect-ratio: auto; padding-top: 2.25rem; }
+/* Text figures. Sized so the widest line (40 characters, or 48 for .wide; the font
+   advances 0.6em) always fits the column, down to very narrow or zoomed screens. */
+pre.term { font: 400 0.75rem/1.5 var(--mono); white-space: pre; }
+pre.term { font-size: min(0.75rem, calc((100vw - 2 * var(--pad)) / 24.1)); }
+pre.term.wide { font-size: min(0.75rem, calc((100vw - 2 * var(--pad)) / 28.9)); }
+pre.term .dim { color: var(--grey); }
+/* The factory table types in from an almost empty first line, so its width is held from the start. */
+.fig[data-fig="factory"] pre.term { min-width: 48ch; }
+pre.term b { font-weight: 700; }
+pre.term .hit { color: var(--link); }
+.fig-error { color: var(--grey); padding: 1rem 0; }
+
+.pill {
+  position: absolute; max-width: 100%;
+  font-size: 0.6875rem; font-weight: 700; line-height: 1.2; text-transform: uppercase;
+  background: var(--pill-bg); color: var(--pill-fg);
+  padding: 0.25rem 0.5rem; border-radius: 2px; /* small radius: a label, not a button */
+}
+figcaption { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5ch; justify-content: space-between; max-width: 35rem; }
+figcaption .ctl { display: inline-flex; flex-wrap: wrap; gap: 0 1.5ch; }
+figcaption .pads { display: inline-flex; flex-wrap: wrap; gap: 0 1.5ch; }
+figcaption button { min-height: 2.75rem; min-width: 2.75rem; }
+.conn { display: none; color: var(--line); }
+.fig.small .stage, .fig.small figcaption { max-width: 27rem; }
+/* A still image in a figure. Its width and height attributes reserve the space. */
+.fig.still img { display: block; width: 100%; max-width: 27rem; height: auto; }
+/* The Loafy render is a small example under its venture, not the group's figure. */
+.fig.still.thumb img, .fig.still.thumb figcaption { max-width: 18rem; }
+
+/* Controls that only make sense while things move (.mctl) are hidden under reduced
+   motion, where every figure is a still frame and the hero cannot be dragged. */
+html:not(.js) .ctl { display: none; }
+html:not(.js) .fig .stage { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .mctl { display: none !important; }
+  .fig[data-fig="hero"] canvas { cursor: default; }
+  html { scroll-behavior: auto; }
+}
+
+/* The cursor blinks four times after load, then rests. */
+@media (prefers-reduced-motion: no-preference) {
+  .cursor { animation: blink 1s steps(1) 4; }
+  html { scroll-behavior: smooth; }
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.foot { margin-top: 5rem; max-width: 70ch; }
+
+/* Theme button: fixed in the bottom-right corner of every page, quiet until used.
+   44px tall at least, inside the safe area, with its text lined up on the page margin.
+   It has the page background so a line scrolling under it stays readable. */
+.theme {
+  position: fixed; z-index: 4;
+  right: max(calc(var(--pad) - 0.75rem), env(safe-area-inset-right));
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  min-height: 2.75rem; min-width: 2.75rem; padding: 0 0.75rem;
+  display: inline-flex; align-items: center;
+  background: var(--bg); color: var(--grey);
+  font-size: 0.6875rem; letter-spacing: 0;
+}
+.theme::before { content: "[ "; white-space: pre; }
+.theme::after { content: " ]"; white-space: pre; }
+.theme:hover, .theme:focus-visible { color: var(--fg); }
+html:not(.js) .theme { display: none; }
+.foot > * + * { margin-top: 1.7em; }
+
+/* Keyboard hints: desktop only. js/main.js fills the row and shows it only where a fine
+   pointer can hover, so a touch screen never sees it. */
+.keys { color: var(--grey); }
+.keys[hidden], html:not(.js) .keys { display: none; }
+.keys p { display: flex; flex-wrap: wrap; gap: 0 2ch; }
+.keys kbd { font: inherit; color: var(--fg); }
+/* A key stays with its label, except in a very narrow window, where the row may break anywhere. */
+@media (min-width: 30rem) { .keys .k { white-space: nowrap; } }
+.keys kbd::before { content: "[" / ""; color: var(--grey); }
+.keys kbd::after { content: "]" / ""; color: var(--grey); }
+.keys button { color: var(--grey); white-space: nowrap; display: inline-block; padding-block: 0.75rem; margin-block: -0.75rem; }
+.keys button::before { content: "[ " / ""; }
+.keys button::after { content: " ]" / ""; }
+.keys button:hover, .keys button:focus-visible { color: var(--fg); }
+/* A section reached by a number or an arrow key gets the same ring as any focused control. */
+.kfocus:focus { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 1px; }
+.foot a { display: inline-block; padding-block: 0.75rem; margin-block: -0.75rem; }
+
+/* From about 44rem there is room for desktop sizes: 12px type, wider margins. */
+@media (min-width: 44rem) {
+  :root { --pad: 2.5rem; }
+  body { font-size: 0.75rem; }
+  main { margin-top: 6.5rem; }
+  .row { margin-top: 6rem; }
+  .top { flex-direction: row; justify-content: flex-start; gap: 1rem; }
+  .top ul { display: block; text-align: right; }
+  .top .pages { margin-left: 6ch; }
+  .top .pages ul { text-align: left; }
+  .top .links { margin-left: auto; }
+  .top li > * { padding-block: 0; }
+  figcaption button { min-height: 0; min-width: 0; }
+  .fig { margin-top: 2.5rem; }
+}
+
+/* From about 68rem the figures move to a rail on the right, joined by dotted connectors. */
+@media (min-width: 68rem) {
+  .row { display: grid; grid-template-columns: minmax(0, 70ch) minmax(0, 1fr); column-gap: 4rem; align-items: start; }
+  .row.solo { display: block; }
+  .row.personal > .text { grid-column: 1; }
+  .row.era { grid-template-rows: auto 1fr; }
+  .row.era > .text { grid-column: 1; }
+  .row.era > .fig { grid-column: 2; grid-row: 1 / span 2; }
+  .fig { margin-top: 0; justify-self: center; width: 100%; max-width: 35rem; position: sticky; top: 2.5rem; }
+  .conn { display: block; margin: 1.25rem auto 0; }
+  .row { margin-top: 2rem; }
+  .row.chapter, .row.solo { margin-top: 6rem; }
+  .row.personal:not(.chapter) { margin-top: 2rem; }
+  .stage-pre { width: max-content; margin-inline: auto; }
+  /* Personal projects are secondary to the work, so their figures are drawn smaller. */
+  .fig.small { max-width: 27rem; }
+}
+
+/* In a short window a rail figure nearly fills the height; held in place it would sit
+   under the theme button, so there it scrolls with the text instead. */
+@media (min-width: 68rem) and (max-height: 42.5rem) {
+  .fig { position: relative; top: auto; }
+}
+
+/* The roles table has no figure beside it, so it may run wider than the prose. */
+.row.solo .text { max-width: none; }
+.row.solo .text > :not(.ascii-wrap) { max-width: 70ch; }
+.row.solo .ascii-wrap { max-width: 104ch; }
