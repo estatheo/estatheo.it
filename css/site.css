@@ -7,6 +7,7 @@
 :root {
   --bg: #f7f7f8; --fg: #1a1a1c; --grey: #62616a; --line: #8a8990; --link: #1f6fc4;
   --ok: #1a7f37; --bad: #c62828; /* Skulpt's lights only: 4.74 and 5.25 on --bg */
+  --wait: #8a5a00; /* the Freedoom computer's LED while it loads */
   --pill-bg: #1a1a1c; --pill-fg: #f7f7f8;
   --mono: "Commit Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --pad: 1.25rem;
@@ -14,13 +15,13 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0; --ok: #3fb950; --bad: #f0605a;
+    --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0; --ok: #3fb950; --bad: #f0605a; --wait: #e3b341;
     --pill-bg: #e8e8ea; --pill-fg: #151516;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0; --ok: #3fb950; --bad: #f0605a;
+  --bg: #151516; --fg: #e8e8ea; --grey: #9a999f; --line: #6f6e76; --link: #4f95e0; --ok: #3fb950; --bad: #f0605a; --wait: #e3b341;
   --pill-bg: #e8e8ea; --pill-fg: #151516;
   color-scheme: dark;
 }
@@ -179,9 +180,11 @@ pre.term .hit { color: var(--link); }
 /* The keyboard, its own block under the computer. On a touch screen it becomes the controls:
    the box grows (js/doom.js) and the buttons sit inside it, half a row in from its lines. */
 .pc-kb { position: relative; }
-.pc-kb-art .kb-keep { font-weight: 400; color: var(--link); }
-.pc-led { color: inherit; }
-.pc[data-on] .pc-led { color: var(--link); font-weight: 700; }
+.pc-kb-art .kb-keep { font-weight: 700; color: inherit; }
+/* The LED: red while the computer is off, yellow while it loads, green while the game runs. */
+.pc-led { color: var(--bad); }
+.pc[data-led="loading"] .pc-led { color: var(--wait); }
+.pc[data-led="on"] .pc-led { color: var(--ok); }
 .pc-screen { position: absolute; left: 6em; top: 2.4em; width: 24em; height: 18em; background: #000; }
 .pc-screen img, .pc-screen canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
 .pc-screen [hidden], .pc-power [hidden] { display: none; }
@@ -191,12 +194,13 @@ pre.term .hit { color: var(--link); }
 /* The POWER button, on the right of the case (columns 33 to 58, rows 22 to 24). */
 .pc-power { position: absolute; left: 19.8em; top: 26.4em; width: 15em; height: 3.6em; display: flex; align-items: center; justify-content: center; }
 .doom-play {
-  display: inline-flex; align-items: center; gap: 0.75ch;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.75ch;
   font-size: 0.75rem; white-space: nowrap; background: var(--bg); color: var(--fg); border: 1px solid currentColor;
-  padding: 0.25rem 1ch; min-height: 1.75rem; text-align: center;
+  padding: 0.25rem 0.75ch; min-height: 2.75rem; min-width: 2.75rem; text-align: center;
 }
-.doom-play .pw { width: 1.1em; height: 1.1em; flex: none; }
-.doom-play:hover { color: var(--link); }
+/* The one thing on the drawing in the text colour: the rest of the computer and keyboard are grey. */
+.doom-play .pw { width: 1.5rem; height: 1.5rem; flex: none; }
+.doom-play:hover { color: var(--link); text-decoration: none; }
 .doom-play[aria-disabled="true"] { cursor: progress; color: var(--grey); }
 /* A phone-sized window with a mouse: the button keeps the site's 44px touch height, over the case lines. */
 @media (max-width: 43.99rem) { .doom-play { min-height: 2.75rem; } }
@@ -209,13 +213,13 @@ pre.term .hit { color: var(--link); }
   touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
 }
 .doom-pad[hidden] { display: none; }
-.doom-pad[data-wait] button { color: var(--grey); }
+.doom-pad[data-wait] button { opacity: 0.6; }
 .doom-pad button {
-  font: inherit; font-size: 0.75rem; color: var(--fg); background: var(--bg); border: 1px solid var(--grey);
+  font: inherit; font-size: 0.75rem; color: var(--grey); background: var(--bg); border: 1px solid var(--grey);
   min-width: 2.75rem; min-height: 2.75rem; padding: 0; touch-action: none; -webkit-tap-highlight-color: transparent;
 }
 .doom-pad button:focus { outline: none; }
-.doom-pad button[data-on] { background: var(--fg); color: var(--bg); }
+.doom-pad button[data-on] { background: var(--grey); color: var(--bg); }
 .doom-pad .pad-up { grid-column: 2; grid-row: 1; }
 .doom-pad .pad-left { grid-column: 1; grid-row: 2; }
 .doom-pad .pad-right { grid-column: 3; grid-row: 2; }

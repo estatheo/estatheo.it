@@ -1,6 +1,6 @@
 // Projects, claude-doom: Freedoom, playable on the screen of an old computer drawn in text
-// (build.mjs, PC_ART). Until POWER is pressed the screen shows a still picture (doom/title.png)
-// and nothing else is fetched. POWER lights the case LED, types a short boot text on the screen
+// (build.mjs, PC_ART). Until POWER is pressed the screen is dark, the case LED is red and
+// nothing is fetched. POWER turns the LED yellow, types a short boot text on the screen
 // while it loads the engine (doomgeneric built with Emscripten, source in doom/src) and the
 // unchanged Freedoom IWAD, counting the download, then runs the game in the screen and hands
 // its canvas the keyboard.
@@ -31,7 +31,7 @@ const KB_KEEP = [[2, 30, 33], [2, 38, 39], [3, 2, 6], [3, 7, 28], [3, 36, 41]];
 const POWER_ICON = '<svg class="pw" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M5 3.8a5.5 5.5 0 1 0 6 0M8 1.5v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 
 export default function doom(fig) {
-  const stage = fig.querySelector('.stage'), still = stage.querySelector('img'), canvas = stage.querySelector('canvas');
+  const stage = fig.querySelector('.stage'), canvas = stage.querySelector('canvas');
   const pc = stage.querySelector('.pc'), boot = stage.querySelector('.pc-boot');
   const kb = stage.querySelector('.pc-kb'), kbArt = kb.querySelector('.pc-kb-art'), KB0 = kbArt.textContent;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -177,11 +177,11 @@ export default function doom(fig) {
   // Downloads with a running count on the button.
   async function fetchAll() {
     let got = 0;
-    setButton('BOOTING', `Loading Freedoom: 0 of ${mb(total)} MB.`); // the count is on the screen
+    setButton('', `Loading Freedoom: 0 of ${mb(total)} MB.`, true); // the count is on the screen
     bootSay('> fetch engine.js, engine.wasm'); bootSay('> fetch freedoom1.wad'); bootSay(`  0.0 of ${mb(total)} MB`);
     const tick = (n) => {
       got += n;
-      setButton('BOOTING', `Loading Freedoom: ${mb(got)} of ${mb(total)} MB.`);
+      setButton('', `Loading Freedoom: ${mb(got)} of ${mb(total)} MB.`, true);
       bootSay(`  ${mb(got)} of ${mb(total)} MB`, true);
     };
     const get = async (url) => {
@@ -206,10 +206,10 @@ export default function doom(fig) {
   async function start() {
     state = 'loading'; btn.setAttribute('aria-disabled', 'true');
     say(`The computer is on. Loading Freedoom, ${mb(total)} MB.`);
-    pc.dataset.on = '';
+    pc.dataset.led = 'loading';
     if (!keyboard.matches) toControls();
     bootLines = []; bootSay('> power on');
-    still.hidden = true; canvas.hidden = true; boot.hidden = false;
+    canvas.hidden = true; boot.hidden = false;
     try {
       if (bytes) bootSay('> engine and freedoom1.wad already here');
       bytes = bytes || await fetchAll();
@@ -232,14 +232,15 @@ export default function doom(fig) {
     } catch (err) {
       console.error('Freedoom could not start', err);
       state = 'ended'; btn.removeAttribute('aria-disabled');
-      delete pc.dataset.on;
+      delete pc.dataset.led;
       bootSay('> could not load. Press POWER to try again.');
       toKeyboard();
-      setButton('TRY AGAIN', 'Freedoom could not load. Power on again to try again.', true);
+      setButton('', 'Freedoom could not load. Power on again to try again.', true);
       say('Freedoom could not load.');
       return;
     }
     btn.removeAttribute('aria-disabled');
+    pc.dataset.led = 'on';
     boot.hidden = true; canvas.hidden = false;
     blit();
     if (!keyboard.matches) { // touch: no focus to give, it runs while the screen is in view
@@ -252,14 +253,14 @@ export default function doom(fig) {
     take();
   }
 
-  // The game quit (its own menu) or stopped with an error: back to the still picture.
+  // The game quit (its own menu) or stopped with an error: back to the dark screen.
   function end(err) {
     if (err && err.name !== 'ExitStatus') console.error('Freedoom stopped', err);
     state = 'ended'; M = null;
     const had = document.activeElement === canvas;
-    canvas.hidden = true; boot.hidden = true; still.hidden = false;
-    delete pc.dataset.on;
-    setButton('POWER', 'Power on again and play Freedoom.', true);
+    canvas.hidden = true; boot.hidden = true;
+    delete pc.dataset.led;
+    setButton('', 'Power on again and play Freedoom.', true);
     btn.hidden = false; toKeyboard(); showDevice();
     if (had) btn.focus();
     give(false);
