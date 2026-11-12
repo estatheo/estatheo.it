@@ -77,7 +77,10 @@ export default function hero(fig) {
   // Seconds: the marks fly in, the ledger rests, then it comes apart.
   const T_IN = 1.6, T_REST = 1.5, T_MORPH = 3.2, T_END = T_IN + T_REST + T_MORPH;
   // The slow turn, in radians a second. It eases in over RAMP seconds after the graph forms.
-  const DRIFT = 0.08, RAMP = 2.5, IDLE_FPS = 20;
+  const DRIFT = 0.22, RAMP = 2.5, IDLE_FPS = 20;
+  // A mouse over the figure tilts it towards the cursor, and a quick sweep gives it a flick.
+  const LOOK_YAW = 0.45, LOOK_PITCH = 0.22, FLICK = 0.012, FLICK_MAX = 2.4;
+  let lookX = 0, lookY = 0, aimX = 0, aimY = 0, hoverX = null;
   let clock = 0, intro = 0, morph = 0, turn = 0, spin = 0, raf = 0, last = 0, painted = 0, dragging = false, lastX = 0, paused = false;
   const pauseBtn = fig.querySelector('[data-pause]');
   let depth = null, owner = null, cols = 0, rows = 0;
@@ -100,8 +103,10 @@ export default function hero(fig) {
     const on = motionOn();
     // With motion off the figure is its own last frame: the finished graph.
     const m = on ? morph : 1, inn = on ? ease(intro) : 1;
-    const yawNow = YAW0 + m * 0.55 + turn;
-    const cy = Math.cos(yawNow), sy = Math.sin(yawNow), pitch = lerp(0, 0.22, m), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const wob = on ? Math.sin(clock * 0.9) * 0.06 + Math.sin(clock * 0.37 + 1.3) * 0.05 : 0;
+    const yawNow = YAW0 + m * 0.55 + turn + m * (lookX * LOOK_YAW + wob);
+    const pitch = lerp(0, 0.22, m) + m * (lookY * LOOK_PITCH + Math.sin(clock * 0.53) * 0.05);
+    const cy = Math.cos(yawNow), sy = Math.sin(yawNow), cp = Math.cos(pitch), sp = Math.sin(pitch);
     const scale = scaleOf(env);
     for (let i = 0; i < N; i++) {
       const j = i * 3;
@@ -145,6 +150,9 @@ export default function hero(fig) {
       intro = clamp(clock / T_IN);
       morph = ease(clamp((clock - T_IN - T_REST) / T_MORPH));
       turn += DRIFT * clamp((clock - T_END) / RAMP) * dt;
+      const ease_ = 1 - Math.pow(0.02, dt);
+      lookX += (aimX - lookX) * ease_; lookY += (aimY - lookY) * ease_;
+      if (Math.abs(aimX - lookX) + Math.abs(aimY - lookY) > 0.004) quick = true;
       if (Math.abs(spin) > 0.02 && !dragging) { turn += spin * dt; spin *= Math.pow(0.04, dt); quick = true; }
     }
     if (quick || now - painted >= 1000 / IDLE_FPS - 4) { draw(); painted = now; }
@@ -165,13 +173,23 @@ export default function hero(fig) {
     const dx = e.clientX - lastX; lastX = e.clientX;
     turn += dx * 0.008; spin = paused ? 0 : dx * 0.5;
   });
+  // Hover with a mouse only: touch has no hover, and a drag already turns it.
+  fig.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' || dragging || paused || !motionOn()) return;
+    const r = canvas.getBoundingClientRect();
+    aimX = clamp((e.clientX - r.left) / r.width) * 2 - 1;
+    aimY = clamp((e.clientY - r.top) / r.height) * 2 - 1;
+    if (hoverX !== null) spin = Math.max(-FLICK_MAX, Math.min(FLICK_MAX, spin + (e.clientX - hoverX) * FLICK));
+    hoverX = e.clientX; kick();
+  });
+  fig.addEventListener('pointerleave', () => { aimX = 0; aimY = 0; hoverX = null; kick(); });
   const drop = () => { if (!dragging) return; dragging = false; canvas.classList.remove('dragging'); kick(); };
   canvas.addEventListener('pointerup', drop);
   canvas.addEventListener('pointercancel', drop);
   pauseBtn?.addEventListener('click', () => { paused = !paused; spin = 0; pauseLabel(pauseBtn, paused); kick(); });
   // Replay starts from the assembled ledger, facing the way it first did.
   fig.querySelector('[data-replay]')?.addEventListener('click', () => {
-    clock = T_IN; turn = 0; spin = 0; morph = 0; paused = false; pauseLabel(pauseBtn, false); draw(); kick();
+    clock = T_IN; turn = 0; spin = 0; morph = 0; aimX = aimY = lookX = lookY = 0; paused = false; pauseLabel(pauseBtn, false); draw(); kick();
   });
   document.addEventListener('site:theme', () => { pal = palette(); draw(); });
   document.fonts?.ready.then(draw);
