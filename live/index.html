@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Live: Theodor Chichirita</title>
-<meta name="description" content="GitHub activity for the last 30 days, redrawn every hour. Counts only.">
+<meta name="description" content="The last 30 days of GitHub activity, today against the whole month, redrawn every hour. Counts only.">
 <meta name="author" content="Theodor Chichirita">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://estatheo.it/live/">
@@ -16,10 +16,18 @@
 :root { --q0: #e6e6e9; --q1: #c9c8ce; --q2: #8a8990; --q3: #5b8fcb; --q4: #1f6fc4; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --q0: #232326; --q1: #3a3a40; --q2: #5c5c64; --q3: #3a6ea6; --q4: #4f95e0; } }
 :root[data-theme="dark"] { --q0: #232326; --q1: #3a3a40; --q2: #5c5c64; --q3: #3a6ea6; --q4: #4f95e0; }
-.weeks { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1.4rem); grid-auto-columns: 1.4rem; gap: 0.3rem; }
-.weeks i { border-radius: 3px; background: var(--q0); }
-.weeks i.l1 { background: var(--q1); } .weeks i.l2 { background: var(--q2); }
-.weeks i.l3 { background: var(--q3); } .weeks i.l4 { background: var(--q4); }
+.cal { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; max-width: 36rem; }
+.cal i { aspect-ratio: 1; border-radius: 4px; background: var(--q0); }
+.cal i.l1 { background: var(--q1); } .cal i.l2 { background: var(--q2); }
+.cal i.l3 { background: var(--q3); } .cal i.l4 { background: var(--q4); }
+.counters { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; }
+.counters li { display: flex; flex-direction: column; gap: 0.5rem; }
+.odo, .odo .t, .odo .m { display: flex; gap: 3px; align-items: center; }
+.odo { gap: 0.4em; }
+.odo .t span, .odo .m span { display: inline-block; width: 1.3em; line-height: 1.9em; text-align: center; font-size: 1.4rem; font-weight: 700;
+  border: 1px solid var(--line); border-radius: 4px; font-variant-numeric: tabular-nums; }
+.odo span.z { color: var(--grey); font-weight: 400; }
+.odo .sl { color: var(--grey); font-size: 1.4rem; }
 .row.solo .text > img.banner { max-width: none; }
 .banner { width: 100%; height: auto; display: block; border: 1px dashed var(--line); }
 </style>
@@ -58,13 +66,11 @@
   <section class="row solo" id="live">
     <div class="text">
       <h1>LIVE</h1>
-      <p>My GitHub activity over the last 30 days: commits, pull requests, reviews and new repositories, counted per day. Only the counts, no repositories or messages. It's redrawn every hour, and the same picture is my LinkedIn banner.</p>
-      <h2 id="activity">ACTIVITY</h2>
-      <p class="meta" data-live-span>Last 30 days.</p>
-      <div class="weeks" role="img" data-live-weeks aria-label="Daily activity squares, loading."></div>
-      <div class="ascii-wrap"><table class="ascii"><caption class="vh">Counts for the last 30 days</caption><tbody data-live-counts>
-        <tr><th scope="row">Contributions</th><td>loading</td></tr>
-      </tbody></table></div>
+      <p>My work on GitHub over the last 30 days: commits, merged pull requests and lines delivered to the main branch, mine and my agents'. Lines leave out lockfiles, build output and other generated files. Only dates and counts, no repositories or messages. It's redrawn every hour, and the same picture is my LinkedIn banner.</p>
+      <h2 id="activity">LAST 30 DAYS</h2>
+      <div class="cal" role="img" data-live-cal aria-label="Activity squares, loading."></div>
+      <h2 id="month">TODAY / LAST 30 DAYS</h2>
+      <ul class="counters" data-live-counters><li class="meta">Loading.</li></ul>
       <p class="meta" data-live-stamp></p>
       <h2 id="banner">BANNER</h2>
       <img class="banner" src="/live/banner.png" width="1584" height="396" alt="My LinkedIn banner: name, headline, the same 30 days of activity squares and counts, and the agent graph from the home page drawn in text.">

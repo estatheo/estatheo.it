@@ -1,26 +1,73 @@
 {
- "updated": "2026-11-17T14:00Z",
- "accounts": 1,
+ "updated": "2026-11-17T15:00Z",
+ "today": "2026-11-17",
+ "total": 1860,
+ "active": 25,
+ "streak": 12,
+ "busiest": 233,
+ "sources": [
+  "git"
+ ],
+ "month_days": 30,
+ "stats": {
+  "commit": {
+   "today": 31,
+   "month": 1860
+  },
+  "merged": {
+   "today": 14,
+   "month": 239
+  },
+  "pr": null,
+  "review": null,
+  "lines": {
+   "today": 19141,
+   "month": 573690,
+   "month_raw": 651878
+  },
+  "repos": {
+   "today": 2,
+   "month": 5
+  },
+  "active": {
+   "today": 1,
+   "month": 25
+  }
+ },
+ "counters": [
+  [
+   "commit",
+   "COMMITS*"
+  ],
+  [
+   "merged",
+   "PRS MERGED*"
+  ],
+  [
+   "lines",
+   "LINES DELIVERED*"
+  ]
+ ],
  "days": [
   {
    "date": "2026-10-19",
-   "count": 0
+   "count": 93
   },
   {
    "date": "2026-10-20",
-   "count": 1
+   "count": 75
   },
   {
    "date": "2026-10-21",
-   "count": 0
+   "count": 40
   },
   {
    "date": "2026-10-22",
-   "count": 0
+   "count": 67
   },
   {
    "date": "2026-10-23",
-   "count": 0
+   "count": 65
   },
   {
    "date": "2026-10-24",
@@ -32,51 +79,51 @@
   },
   {
    "date": "2026-10-26",
-   "count": 0
+   "count": 53
   },
   {
    "date": "2026-10-27",
-   "count": 3
+   "count": 75
   },
   {
    "date": "2026-10-28",
-   "count": 0
+   "count": 58
   },
   {
    "date": "2026-10-29",
-   "count": 0
+   "count": 233
   },
   {
    "date": "2026-10-30",
-   "count": 7
+   "count": 119
   },
   {
    "date": "2026-10-31",
-   "count": 0
+   "count": 135
   },
   {
    "date": "2026-11-01",
-   "count": 3
+   "count": 41
   },
   {
    "date": "2026-11-02",
-   "count": 0
+   "count": 67
   },
   {
    "date": "2026-11-03",
-   "count": 0
+   "count": 119
   },
   {
    "date": "2026-11-04",
-   "count": 0
+   "count": 148
   },
   {
    "date": "2026-11-05",
-   "count": 0
+   "count": 37
   },
   {
    "date": "2026-11-06",
-   "count": 0
+   "count": 25
   },
   {
    "date": "2026-11-07",
@@ -88,27 +135,27 @@
   },
   {
    "date": "2026-11-09",
-   "count": 0
-  },
-  {
-   "date": "2026-11-10",
-   "count": 0
-  },
-  {
-   "date": "2026-11-11",
-   "count": 10
-  },
-  {
-   "date": "2026-11-12",
-   "count": 7
-  },
-  {
-   "date": "2026-11-13",
    "count": 1
   },
   {
+   "date": "2026-11-10",
+   "count": 98
+  },
+  {
+   "date": "2026-11-11",
+   "count": 54
+  },
+  {
+   "date": "2026-11-12",
+   "count": 56
+  },
+  {
+   "date": "2026-11-13",
+   "count": 93
+  },
+  {
    "date": "2026-11-14",
-   "count": 0
+   "count": 33
   },
   {
    "date": "2026-11-15",
@@ -116,15 +163,15 @@
   },
   {
    "date": "2026-11-16",
-   "count": 1
+   "count": 44
   },
   {
    "date": "2026-11-17",
-   "count": 0
+   "count": 31
   }
  ],
- "total": 33,
- "active": 8,
- "streak": 3,
- "busiest": 10
+ "identity": "work",
+ "clones": 9,
+ "fetch_failed": 0,
+ "partial": false
 }
