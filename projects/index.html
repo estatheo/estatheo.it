@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Projects: Theodor Chichirita</title>
-<meta name="description" content="A selection of what Theodor Chichirita is building at the moment, all in progress: a venture factory with Skulpt and Loafy, hardware (Bacchette air drums, Eddy the desk pet) and SaaS (Optly, Boris) and software (Ascolta, Tunes, Lookaway).">
+<meta name="description" content="A selection of what Theodor Chichirita is building at the moment, all in progress: a venture factory with Skulpt and Loafy, hardware (Bacchette air drums, Eddy the desk pet) and SaaS (Optly, Boris) and software (Ascolta, Tunes, Lookaway, an activity graph).">
 <meta name="author" content="Theodor Chichirita">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://estatheo.it/projects/">
@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="estatheo.it">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Projects: Theodor Chichirita">
-<meta property="og:description" content="A selection of what Theodor Chichirita is building at the moment, all in progress: a venture factory with Skulpt and Loafy, hardware (Bacchette air drums, Eddy the desk pet) and SaaS (Optly, Boris) and software (Ascolta, Tunes, Lookaway).">
+<meta property="og:description" content="A selection of what Theodor Chichirita is building at the moment, all in progress: a venture factory with Skulpt and Loafy, hardware (Bacchette air drums, Eddy the desk pet) and SaaS (Optly, Boris) and software (Ascolta, Tunes, Lookaway, an activity graph).">
 <meta property="og:image" content="https://estatheo.it/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="THEODOR CHICHIRITA / ESTATHEO.IT / 2026, set as plain text with a block cursor.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Projects: Theodor Chichirita">
-<meta name="twitter:description" content="A selection of what Theodor Chichirita is building at the moment, all in progress: a venture factory with Skulpt and Loafy, hardware (Bacchette air drums, Eddy the desk pet) and SaaS (Optly, Boris) and software (Ascolta, Tunes, Lookaway).">
+<meta name="twitter:description" content="A selection of what Theodor Chichirita is building at the moment, all in progress: a venture factory with Skulpt and Loafy, hardware (Bacchette air drums, Eddy the desk pet) and SaaS (Optly, Boris) and software (Ascolta, Tunes, Lookaway, an activity graph).">
 <meta name="twitter:image" content="https://estatheo.it/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -71,7 +71,7 @@
         <li><a href="#factory">Venture factory</a> <span class="meta">Skulpt, Loafy</span></li>
         <li><a href="#saas">SaaS</a> <span class="meta">Optly, Boris</span></li>
         <li><a href="#hardware">Hardware</a> <span class="meta">Bacchette, Eddy, a smart home hub</span></li>
-        <li><a href="#software">Software</a> <span class="meta">Ascolta, Tunes, Lookaway, claude-doom</span></li>
+        <li><a href="#software">Software</a> <span class="meta">Ascolta, Tunes, Lookaway, the activity graph, claude-doom</span></li>
       </ul>
     </div>
   </section>
@@ -267,10 +267,24 @@
 
   <section class="row personal">
     <div class="text">
+      <h3 id="activity-graph">ACTIVITY GRAPH</h3>
+      <p>My last 30 days on GitHub as a grid of squares, one per day. Click or tap a square, or use the arrow keys and Enter, to see that day's commits, and for today the merged pull requests and lines delivered too.</p>
+        <p>Every hour a job on my Mac counts the day from my local clones and writes one small JSON file with dates and counts, never repository names or commit messages. This grid and my LinkedIn banner are both drawn from it, so they can be up to an hour behind.</p>
+      <p class="meta">Python, TypeScript</p>
+    </div>
+    <figure class="fig small" data-fig="activity-graph">
+        <activity-graph class="ag" src="/live/activity.json" refresh="300"></activity-graph>
+        <noscript><p class="meta">The grid needs JavaScript.</p></noscript>
+        <figcaption><span>fig. 10: my last 30 days, one square per day. Pick a day to see its numbers.</span></figcaption>
+      </figure>
+  </section>
+
+  <section class="row personal">
+    <div class="text">
       <h3 id="claude-doom">CLAUDE-DOOM</h3>
       <p>Doom in a Claude Code pane. Typing /doom opens a pane beside the conversation that plays Freedoom, drawn in the terminal as half-block characters, two pixels to a character. It needs no image support, so it also runs inside tmux.</p>
         <p>The engine is doomgeneric with a small backend of mine that writes each frame as terminal cells; the pane redraws them 30 times a second. Click the bar under the picture to give it the keyboard, and Esc gives it back. The code is public at <a href="https://github.com/estatheo/claude-doom">github.com/estatheo/claude-doom</a>.</p>
-        <p>Fig. 10 is the same engine built for the browser, so you can play Freedoom right here. Have fun.</p>
+        <p>Fig. 11 is the same engine built for the browser, so you can play Freedoom right here. Have fun.</p>
       <p class="meta">C, TypeScript, Claude Code</p>
     </div>
     <figure class="fig small" data-fig="doom">
@@ -320,7 +334,7 @@
         <p class="doom-note" data-doom-note>Playing it needs JavaScript.</p>
         <p class="doom-keys" data-doom-keys hidden><kbd>&larr;</kbd> <kbd>&rarr;</kbd> <kbd>&uarr;</kbd> <kbd>&darr;</kbd> or <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> move &nbsp;<kbd>CTRL</kbd> or <kbd>F</kbd> fire &nbsp;<kbd>SPACE</kbd> use &nbsp;<kbd>ENTER</kbd> pick &nbsp;<kbd>M</kbd> menu &nbsp;<kbd>ESC</kbd> release</p>
         <p class="vh" aria-live="polite" data-doom-status></p>
-        <figcaption><span>fig. 10: Freedoom, in claude-doom's engine built for the browser. Every level, sprite and texture is Freedoom's own. No sound.</span></figcaption>
+        <figcaption><span>fig. 11: Freedoom, in claude-doom's engine built for the browser. Every level, sprite and texture is Freedoom's own. No sound.</span></figcaption>
         <p class="meta doom-lic">Engine: doomgeneric, <a href="/doom/LICENSE-GPL-2.0.txt">GPL-2.0</a>, <a href="/doom/SOURCE.txt">source</a>. Game data: Freedoom, <a href="/doom/FREEDOOM-COPYING.txt">BSD licence</a>. Download: 29.2 MB.</p>
       </figure>
   </section>

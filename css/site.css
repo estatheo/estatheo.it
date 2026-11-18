@@ -165,6 +165,15 @@ pre.term .dim { color: var(--grey); }
    js/loafy.js then sets the exact height. */
 @media (max-width: 21.25rem) { .fig[data-fig="loafy"] .stage { aspect-ratio: 10 / 13; } }
 @media (max-width: 15rem) { .fig[data-fig="loafy"] .stage { aspect-ratio: 10 / 18; } }
+/* The activity graph (fig. in projects): <activity-graph> takes its colours from the site tokens.
+   Squares go from empty through greys to the link blue, as on the banner. The min-height keeps
+   the space while js/activity-graph.js loads. */
+activity-graph { display: block; min-height: 17rem; --ag-bg: var(--bg); --ag-fg: var(--fg); --ag-grey: var(--grey);
+  --ag-line: var(--line); --ag-link: var(--link); --ag-small: 1em;
+  --ag-q0: #e6e6e9; --ag-q1: #c9c8ce; --ag-q2: #8a8990; --ag-q3: #5b8fcb; --ag-q4: #1f6fc4; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) activity-graph {
+  --ag-q0: #232326; --ag-q1: #3a3a40; --ag-q2: #5c5c64; --ag-q3: #3a6ea6; --ag-q4: #4f95e0; } }
+:root[data-theme="dark"] activity-graph { --ag-q0: #232326; --ag-q1: #3a3a40; --ag-q2: #5c5c64; --ag-q3: #3a6ea6; --ag-q4: #4f95e0; }
 pre.term b { font-weight: 700; }
 pre.term .hit { color: var(--link); }
 .fig-error { color: var(--grey); padding: 1rem 0; }

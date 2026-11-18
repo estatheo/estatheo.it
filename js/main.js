@@ -175,7 +175,8 @@ addEventListener('keydown', (e) => {
   // While a game has the keyboard (js/doom.js sets data-game) every key is the game's.
   if (!keysOn || !desktop.matches || e.defaultPrevented || 'game' in root.dataset) return;
   if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.isComposing) return;
-  const el = document.activeElement;
+  // Focus inside a component (the activity graph's squares) is in its shadow root.
+  const el = document.activeElement?.shadowRoot?.activeElement || document.activeElement;
   if (typing(el)) return;
   const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
   let done = true;
