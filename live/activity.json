@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-20T23:00Z",
- "today": "2026-11-20",
- "total": 1771,
- "active": 25,
+ "updated": "2026-11-21T03:00Z",
+ "today": "2026-11-21",
+ "total": 1704,
+ "active": 24,
  "streak": 12,
  "busiest": 233,
  "sources": [
@@ -11,27 +11,27 @@
  "month_days": 30,
  "stats": {
   "commit": {
-   "today": 16,
-   "month": 1771
+   "today": 0,
+   "month": 1704
   },
   "merged": {
-   "today": 8,
-   "month": 250
+   "today": 0,
+   "month": 238
   },
   "pr": null,
   "review": null,
   "lines": {
-   "today": 539,
-   "month": 556181,
-   "month_raw": 630911
+   "today": 0,
+   "month": 428612,
+   "month_raw": 491081
   },
   "repos": {
-   "today": 1,
+   "today": 0,
    "month": 6
   },
   "active": {
-   "today": 1,
-   "month": 25
+   "today": 0,
+   "month": 24
   }
  },
  "counters": [
@@ -49,10 +49,6 @@
   ]
  ],
  "days": [
-  {
-   "date": "2026-10-22",
-   "count": 67
-  },
   {
    "date": "2026-10-23",
    "count": 64
@@ -168,15 +164,18 @@
   {
    "date": "2026-11-20",
    "count": 16
+  },
+  {
+   "date": "2026-11-21",
+   "count": 0
   }
  ],
  "identity": "work",
  "clones": 10,
- "fetch_failed": 0,
- "partial": false,
+ "fetch_failed": 2,
+ "partial": true,
  "levels": [
   4,
-  4,
   0,
   0,
   3,
@@ -190,20 +189,21 @@
   4,
   4,
   3,
+  2,
+  0,
+  0,
   1,
+  4,
+  4,
+  4,
+  4,
+  2,
   0,
-  0,
+  3,
+  3,
+  4,
+  2,
   1,
-  4,
-  3,
-  4,
-  4,
-  2,
-  0,
-  3,
-  2,
-  4,
-  2,
-  3
+  0
  ]
 }
