@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-22T01:00Z",
- "today": "2026-11-21",
- "total": 1704,
- "active": 24,
+ "updated": "2026-11-22T12:00Z",
+ "today": "2026-11-22",
+ "total": 1640,
+ "active": 23,
  "streak": 12,
  "busiest": 233,
  "sources": [
@@ -12,18 +12,18 @@
  "stats": {
   "commit": {
    "today": 0,
-   "month": 1704
+   "month": 1640
   },
   "merged": {
    "today": 0,
-   "month": 238
+   "month": 234
   },
   "pr": null,
   "review": null,
   "lines": {
    "today": 0,
-   "month": 428612,
-   "month_raw": 491081
+   "month": 401935,
+   "month_raw": 461470
   },
   "repos": {
    "today": 0,
@@ -31,7 +31,7 @@
   },
   "active": {
    "today": 0,
-   "month": 24
+   "month": 23
   }
  },
  "counters": [
@@ -49,10 +49,6 @@
   ]
  ],
  "days": [
-  {
-   "date": "2026-10-23",
-   "count": 64
-  },
   {
    "date": "2026-10-24",
    "count": 0
@@ -168,6 +164,10 @@
   {
    "date": "2026-11-21",
    "count": 0
+  },
+  {
+   "date": "2026-11-22",
+   "count": 0
   }
  ],
  "identity": "work",
@@ -175,7 +175,6 @@
  "fetch_failed": 1,
  "partial": true,
  "levels": [
-  4,
   0,
   0,
   3,
@@ -204,6 +203,7 @@
   4,
   2,
   1,
+  0,
   0
  ]
 }
