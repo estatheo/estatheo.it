@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T12:00Z",
+ "updated": "2026-11-22T14:00Z",
  "today": "2026-11-22",
  "total": 1640,
  "active": 23,
@@ -172,8 +172,8 @@
  ],
  "identity": "work",
  "clones": 10,
- "fetch_failed": 1,
- "partial": true,
+ "fetch_failed": 0,
+ "partial": false,
  "levels": [
   0,
   0,
