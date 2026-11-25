@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-25T09:00Z",
- "today": "2026-11-24",
- "total": 1769,
+ "updated": "2026-11-25T10:00Z",
+ "today": "2026-11-25",
+ "total": 1717,
  "active": 25,
- "streak": 12,
+ "streak": 11,
  "busiest": 233,
  "sources": [
   "git"
@@ -11,23 +11,23 @@
  "month_days": 30,
  "stats": {
   "commit": {
-   "today": 31,
-   "month": 1769
+   "today": 1,
+   "month": 1717
   },
   "merged": {
-   "today": 22,
-   "month": 278
+   "today": 2,
+   "month": 266
   },
   "pr": null,
   "review": null,
   "lines": {
-   "today": 11813,
-   "month": 424599,
-   "month_raw": 486800
+   "today": 766,
+   "month": 418140,
+   "month_raw": 477612
   },
   "repos": {
-   "today": 3,
-   "month": 7
+   "today": 1,
+   "month": 6
   },
   "active": {
    "today": 1,
@@ -49,10 +49,6 @@
   ]
  ],
  "days": [
-  {
-   "date": "2026-10-26",
-   "count": 53
-  },
   {
    "date": "2026-10-27",
    "count": 75
@@ -168,14 +164,17 @@
   {
    "date": "2026-11-24",
    "count": 31
+  },
+  {
+   "date": "2026-11-25",
+   "count": 1
   }
  ],
  "identity": "work",
  "clones": 12,
- "fetch_failed": 2,
+ "fetch_failed": 1,
  "partial": true,
  "levels": [
-  3,
   4,
   4,
   4,
@@ -186,7 +185,7 @@
   4,
   4,
   3,
-  1,
+  2,
   0,
   0,
   1,
@@ -199,11 +198,12 @@
   3,
   3,
   4,
-  2,
+  3,
   1,
   0,
   0,
   4,
+  2,
   3
  ]
 }
