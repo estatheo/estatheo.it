@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T18:00Z",
+ "updated": "2026-11-25T09:00Z",
  "today": "2026-11-24",
  "total": 1769,
  "active": 25,
@@ -21,9 +21,9 @@
   "pr": null,
   "review": null,
   "lines": {
-   "today": 11550,
-   "month": 424336,
-   "month_raw": 486537
+   "today": 11813,
+   "month": 424599,
+   "month_raw": 486800
   },
   "repos": {
    "today": 3,
@@ -172,8 +172,8 @@
  ],
  "identity": "work",
  "clones": 12,
- "fetch_failed": 0,
- "partial": false,
+ "fetch_failed": 2,
+ "partial": true,
  "levels": [
   3,
   4,
