@@ -1,9 +1,9 @@
 {
- "updated": "2026-11-26T22:00Z",
- "today": "2026-11-26",
- "total": 1753,
- "active": 25,
- "streak": 10,
+ "updated": "2026-11-27T00:00Z",
+ "today": "2026-11-27",
+ "total": 1697,
+ "active": 24,
+ "streak": 9,
  "busiest": 233,
  "sources": [
   "git"
@@ -11,27 +11,27 @@
  "month_days": 30,
  "stats": {
   "commit": {
-   "today": 61,
-   "month": 1753
+   "today": 0,
+   "month": 1697
   },
   "merged": {
-   "today": 25,
-   "month": 286
+   "today": 0,
+   "month": 281
   },
   "pr": null,
   "review": null,
   "lines": {
-   "today": 13614,
-   "month": 482247,
-   "month_raw": 546973
+   "today": 0,
+   "month": 467994,
+   "month_raw": 531679
   },
   "repos": {
-   "today": 2,
+   "today": 0,
    "month": 6
   },
   "active": {
-   "today": 1,
-   "month": 25
+   "today": 0,
+   "month": 24
   }
  },
  "counters": [
@@ -49,10 +49,6 @@
   ]
  ],
  "days": [
-  {
-   "date": "2026-10-28",
-   "count": 58
-  },
   {
    "date": "2026-10-29",
    "count": 233
@@ -167,7 +163,11 @@
   },
   {
    "date": "2026-11-26",
-   "count": 61
+   "count": 63
+  },
+  {
+   "date": "2026-11-27",
+   "count": 0
   }
  ],
  "identity": "work",
@@ -178,32 +178,32 @@
   4,
   4,
   4,
-  4,
   3,
   4,
   4,
+  4,
+  3,
+  2,
+  0,
+  0,
+  1,
+  4,
+  4,
+  4,
+  4,
+  2,
+  0,
+  3,
+  3,
   4,
   3,
   1,
   0,
   0,
-  1,
-  4,
-  3,
-  4,
   4,
   2,
-  0,
-  3,
-  2,
   4,
-  2,
-  1,
-  0,
-  0,
   4,
-  2,
-  3,
-  4
+  0
  ]
 }
