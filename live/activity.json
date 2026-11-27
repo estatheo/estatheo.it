@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T10:00Z",
+ "updated": "2026-11-27T11:00Z",
  "today": "2026-11-27",
  "total": 1702,
  "active": 25,
@@ -15,15 +15,15 @@
    "month": 1702
   },
   "merged": {
-   "today": 2,
-   "month": 283
+   "today": 5,
+   "month": 286
   },
   "pr": null,
   "review": null,
   "lines": {
-   "today": 0,
-   "month": 468042,
-   "month_raw": 532403
+   "today": 113,
+   "month": 468944,
+   "month_raw": 534493
   },
   "repos": {
    "today": 1,
